@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_margin">30dp</dimen>
+    <dimen name="item_space">15dp</dimen>
+    <dimen name="list_item_margin">10dp</dimen>
+    <dimen name="detail_image_height">250dp</dimen>
+</resources>

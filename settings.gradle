@@ -1,0 +1,6 @@
+include ':architecture'
+include ':app'
+
+include 'features:list'
+
+rootProject.name = "Sample"

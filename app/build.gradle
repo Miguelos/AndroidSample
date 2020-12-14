@@ -1,0 +1,113 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "me.miguelos.sample"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Marvel API
+        buildConfigField("String", "API_BASE_URL", "\"https://gateway.marvel.com:443/v1/public/\"")
+        buildConfigField("boolean", "API_DEBUG_MODE", "true")
+        buildConfigField("String", "API_PUBLIC_KEY", "${project.properties["marvelApiPublicKey"] ?: ""}")
+        buildConfigField("String", "API_PRIVATE_KEY", "${project.properties["marvelApiPrivateKey"] ?: ""}")
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("boolean", "API_DEBUG_MODE", "true")
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    viewBinding {
+        enabled = true
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+    }
+
+    sourceSets.all {
+        java.srcDir("src/$name/kotlin")
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.android.support:support-annotations:28.0.0'
+
+    // Testing
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
+    // Espresso UI Testing
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$rootProject.espressoVersion"
+    api "androidx.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
+
+    // Dependency Injection
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$andXhiltVersion"
+    kapt "androidx.hilt:hilt-compiler:$andXhiltVersion"
+
+    // Architecture Components
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    testImplementation "androidx.room:room-testing:$roomVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation 'androidx.activity:activity-ktx:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navVersion"
+    androidTestImplementation "androidx.navigation:navigation-testing:$navVersion"
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha03"
+
+    // RxJava
+    implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
+    implementation "io.reactivex.rxjava3:rxjava:3.0.8"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.8.0"
+}
