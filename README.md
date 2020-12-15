@@ -3,7 +3,7 @@
 [![kotlin](https://img.shields.io/badge/Kotlin-1.4.xx-blue)](https://kotlinlang.org/) [![Dagger](https://img.shields.io/badge/Dagger-Hilt-orange)](https://dagger.dev/hilt)
 
 
-:construction: Under construccion! :construction:
+:construction: Under construction! :construction:
 
 Sample App for use and practise of different libraries.
 

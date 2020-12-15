@@ -66,6 +66,14 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
+    // Robolectric tests.
+    testImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+
+    // Instrumented tests.
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+
     // Espresso UI Testing
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
