@@ -27,4 +27,8 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
+
+    companion object {
+        const val ARG_ID = "character_id"
+    }
 }

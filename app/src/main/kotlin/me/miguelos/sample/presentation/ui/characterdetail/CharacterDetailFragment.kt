@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.miguelos.sample.databinding.CharacterDetailFragmentBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.model.MarvelCharacter
+import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
 import javax.inject.Inject
@@ -69,9 +70,5 @@ class CharacterDetailFragment : BaseFragment() {
         } else {
             View.GONE
         }
-    }
-
-    companion object {
-        const val ARG_ID = "character_id"
     }
 }

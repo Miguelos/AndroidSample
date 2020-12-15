@@ -14,7 +14,7 @@ import me.miguelos.sample.R
 import me.miguelos.sample.databinding.CharactersFragmentBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.model.MarvelCharacter
-import me.miguelos.sample.presentation.ui.characterdetail.CharacterDetailFragment.Companion.ARG_ID
+import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
 import javax.inject.Inject

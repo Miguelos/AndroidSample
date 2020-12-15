@@ -409,3 +409,5 @@ obj/
 
 !/gradle/wrapper/gradle-wrapper.jar
 /.idea/checkstyleidea-libs/readme.txt
+
+gradle.properties
