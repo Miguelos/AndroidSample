@@ -18,7 +18,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "me.miguelos.sample.CustomTestRunner"
 
         // Marvel API
         buildConfigField("String", "API_BASE_URL", "\"https://gateway.marvel.com:443/v1/public/\"")
@@ -68,18 +68,22 @@ dependencies {
 
     // Robolectric tests.
     testImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
-    kaptTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.28.1-alpha'
 
     // Instrumented tests.
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28.1-alpha'
 
     // Espresso UI Testing
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$rootProject.espressoVersion"
-    api "androidx.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
+    api "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+
+    debugImplementation("androidx.fragment:fragment-testing:$fragmentVersion") {
+        exclude group: 'androidx.test', module: 'monitor'
+    }
 
     // Dependency Injection
     implementation "com.google.dagger:hilt-android:$hiltVersion"
@@ -95,8 +99,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
-    implementation 'androidx.activity:activity-ktx:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation "androidx.activity:activity-ktx:$activityVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.jakewharton.timber:timber:4.7.1'
