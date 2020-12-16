@@ -23,8 +23,13 @@ class CharactersAdapter(
 
     fun setItems(items: ArrayList<MarvelCharacter>) {
         this.items.clear()
+        this.addItems(items)
+    }
+
+    fun addItems(items: ArrayList<MarvelCharacter>) {
+        val prevSize = this.items.size
         this.items.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(prevSize, items.size)
     }
 
     /**

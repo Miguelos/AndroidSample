@@ -8,11 +8,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.miguelos.sample.R
 import me.miguelos.sample.databinding.CharactersFragmentBinding
 import me.miguelos.sample.presentation.core.BaseFragment
+import me.miguelos.sample.presentation.core.EndlessRecyclerViewScrollListener
 import me.miguelos.sample.presentation.model.MarvelCharacter
 import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
 import me.miguelos.sample.util.autoCleared
@@ -48,7 +50,7 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
     private fun initUi() {
         initAdapter()
         observeViewState()
-        viewModel.getCharacterList()
+        viewModel.loadMoreCharacters(0)
     }
 
     private fun initAdapter() {
@@ -75,8 +77,12 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
     }
 
     private fun handleCharactersState(characters: List<MarvelCharacter>) {
-        characterAdapter.clear()
-        characterAdapter.setItems(ArrayList(characters))
+        binding.emptyListTv.visibility = if (characters.isEmpty()) {
+            View.VISIBLE
+        } else {
+            characterAdapter?.addItems(ArrayList(characters))
+            View.GONE
+        }
     }
 
     private fun handleFeedbackState(error: Throwable) {

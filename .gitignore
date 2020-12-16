@@ -411,3 +411,4 @@ obj/
 /.idea/checkstyleidea-libs/readme.txt
 
 gradle.properties
+/.idea/git_toolbox_prj.xml

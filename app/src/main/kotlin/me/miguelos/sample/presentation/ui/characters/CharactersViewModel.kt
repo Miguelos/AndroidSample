@@ -26,30 +26,36 @@ class CharactersViewModel @ViewModelInject constructor(
         viewState.value = CharactersViewState(isLoading = false)
     }
 
-    fun getCharacterList() {
+    fun loadMoreCharacters(totalItemsCount: Int) {
         if (viewState.value?.isLoading == false) {
             viewState.value = viewState.value?.copy(isLoading = true)
-            performGetChatList()
+            performGetChatList(totalItemsCount)
         }
     }
 
-    private fun performGetChatList() {
-        Timber.tag(javaClass.simpleName).i("Getting character list")
+    private fun performGetChatList(totalItemsCount: Int) {
+        Timber.tag(javaClass.simpleName)
+            .i("Getting character list ($totalItemsCount items)")
 
         addDisposable(getCharacters
-            .execute(GetCharacters.RequestValues(false, 0, 10))
-            .subscribe(
-                { response ->
-                    characterMapper.mapOptional(
-                        (response as? GetCharacters.ResponseValues)?.marvelCharacters
-                    )?.toList()?.let {
-                        Timber.i("Characters received $it")
-                        handleCharacters(it)
-                    }
-                    viewState.value = viewState.value?.copy(
-                        isLoading = false
-                    )
-                },
+            .execute(
+                GetCharacters.RequestValues(
+                    false,
+                    totalItemsCount,
+                    PAGE_SIZE
+                )
+            )
+            .subscribe({ response ->
+                characterMapper.mapOptional(
+                    (response as? GetCharacters.ResponseValues)?.marvelCharacters
+                )?.toList()?.let {
+                    Timber.i("Characters received $it")
+                    handleCharacters(it)
+                }
+                viewState.value = viewState.value?.copy(
+                    isLoading = false
+                )
+            },
                 {
                     handleError(it)
                     viewState.value = viewState.value?.copy(
@@ -70,5 +76,9 @@ class CharactersViewModel @ViewModelInject constructor(
         } else {
             errorState.postValue(it)
         }
+    }
+
+    companion object {
+        const val PAGE_SIZE = 10
     }
 }
