@@ -57,5 +57,5 @@
     #noinspection ShrinkerUnresolvedReference
     public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *; }
 # Models
--keep class me.miguelos.sample.data.source.remote.api.entity.** { *; }
+-keep class me.miguelos.sample.data.source.remote.entity.** { *; }
 

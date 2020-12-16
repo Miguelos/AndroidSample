@@ -3,12 +3,13 @@ package me.miguelos.sample.data.source.remote
 import io.reactivex.rxjava3.core.Single
 import me.miguelos.sample.common.Mapper
 import me.miguelos.sample.data.source.remote.api.MarvelService
-import me.miguelos.sample.data.source.remote.api.entity.MarvelCharacterEntity
 import me.miguelos.sample.data.source.remote.api.responses.ServerError
+import me.miguelos.sample.data.source.remote.entity.MarvelCharacterEntity
 import me.miguelos.sample.domain.MarvelDataSource
 import me.miguelos.sample.domain.model.MarvelCharacter
 import me.miguelos.sample.domain.usecase.GetCharacter
 import me.miguelos.sample.domain.usecase.GetCharacters
+import me.miguelos.sample.domain.usecase.SaveCharacters
 import javax.inject.Inject
 
 /**
@@ -67,15 +68,13 @@ class MarvelRemoteDataSource @Inject constructor(
                 }
             }
 
-    override fun refreshMarvelCharacters() {
-        throw UnsupportedOperationException("Refresh Marvel Characters on the server is unsupported.")
-    }
-
     override fun deleteAllMarvelCharacters() {
         throw UnsupportedOperationException("Delete Marvel Character on the server is unsupported.")
     }
 
-    /*override fun saveMarvelCharacter(marvelCharacterEntity: MarvelCharacterEntity) {
+    override fun saveMarvelCharacters(
+        requestValues: SaveCharacters.RequestValues
+    ) {
         throw UnsupportedOperationException("Save Marvel Character on the server is unsupported.")
-    }*/
+    }
 }

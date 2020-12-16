@@ -17,6 +17,7 @@ import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.core.EndlessRecyclerViewScrollListener
 import me.miguelos.sample.presentation.model.MarvelCharacter
 import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
+import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
     private var binding: CharactersFragmentBinding by autoCleared()
     private val viewModel: CharactersViewModel by viewModels()
 
-    private lateinit var characterAdapter: CharactersAdapter
+    private var characterAdapter: CharactersAdapter? = null
 
     @Inject
     lateinit var imageLoader: ImageLoader
@@ -54,9 +55,20 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
     }
 
     private fun initAdapter() {
-        characterAdapter = CharactersAdapter(this, imageLoader)
-        binding.charactersRv.layoutManager = LinearLayoutManager(requireContext())
-        binding.charactersRv.adapter = characterAdapter
+        if (characterAdapter == null) {
+            characterAdapter = CharactersAdapter(this, imageLoader)
+        }
+        binding.charactersRv.apply {
+            val linearLayoutManager = LinearLayoutManager(requireContext())
+            layoutManager = linearLayoutManager
+            adapter = characterAdapter
+            addOnScrollListener(object :
+                EndlessRecyclerViewScrollListener(linearLayoutManager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    viewModel.loadMoreCharacters(totalItemsCount)
+                }
+            })
+        }
     }
 
     private fun observeViewState() {
@@ -87,8 +99,8 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
 
     private fun handleFeedbackState(error: Throwable) {
         Snackbar.make(
-            binding.charactersRv,
-            "Error: ${error.localizedMessage}",
+            binding.charactersCl,
+            ErrorMessageFactory.create(requireContext(), error),
             Snackbar.LENGTH_LONG
         ).show()
     }

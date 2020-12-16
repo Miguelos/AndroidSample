@@ -1,10 +1,9 @@
-package me.miguelos.sample.data.source.remote.api.entity
+package me.miguelos.sample.data.source.remote.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-
 data class DataEntity<T>(
     @JsonProperty(Properties.OFFSET) var offset: Int = 0,
     @JsonProperty(Properties.LIMIT) var limit: Int = 0,

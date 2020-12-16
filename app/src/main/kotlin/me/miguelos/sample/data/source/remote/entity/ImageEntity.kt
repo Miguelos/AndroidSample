@@ -1,4 +1,4 @@
-package me.miguelos.sample.data.source.remote.api.entity
+package me.miguelos.sample.data.source.remote.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
