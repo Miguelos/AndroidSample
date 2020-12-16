@@ -5,9 +5,14 @@
 
 :construction: Under construction! :construction:
 
+
 Sample App for use and practise of different libraries.
 
 For now it shows a list of Marvel Characters from Marvel API.
+
+Includes:
+ * Examples of UI testing and Unit testing. 
+ * Local Database and Cache for items showed in the list
 
 ## Features and Libraries
 * Clean Architecture with MVVM
@@ -31,11 +36,20 @@ For now it shows a list of Marvel Characters from Marvel API.
 *   [Retrofit](https://square.github.io/retrofit)
 *   [Timber](https://github.com/JakeWharton/timber)
 *   [Glide](https://github.com/bumptech/glide)
+*   [Mockito](https://github.com/mockito/mockito)
 
 ## Structure
 * **Presentation**: Model View View Model pattern from the base sample.
 * **Domain**: Holds all business logic. The domain layer starts with classes named *use cases* used by the application presenters. These *use cases* represent all the possible actions a developer can perform from the presentation layer.
 * **Repository**: Repository pattern from the base sample.
+
+## Setup
+
+It is needed to add Marvel API keys to gradle in order to build the app.
+
+	marvelApiPublicKey
+	marvelApiPrivateKey
+
 
 ## Author
 Miguel González Pérez
