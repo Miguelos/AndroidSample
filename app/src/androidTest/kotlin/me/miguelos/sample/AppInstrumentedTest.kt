@@ -1,8 +1,8 @@
 package me.miguelos.sample
 
-import android.provider.ContactsContract.Directory.PACKAGE_NAME
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import me.miguelos.sample.util.UITestExtensions.Companion.PACKAGE_NAME
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

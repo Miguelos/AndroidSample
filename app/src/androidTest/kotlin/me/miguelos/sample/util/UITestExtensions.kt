@@ -12,7 +12,7 @@ import timber.log.Timber
 class UITestExtensions {
 
     companion object {
-        private const val PACKAGE_NAME = "me.miguelos.sample"
+        const val PACKAGE_NAME = "me.miguelos.sample"
 
         fun sleep(timeInMillis: Long) {
             try {

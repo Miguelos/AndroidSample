@@ -1,5 +1,6 @@
 package me.miguelos.sample.domain.usecase
 
+import androidx.annotation.VisibleForTesting
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import me.miguelos.sample.domain.MarvelRepository
@@ -29,10 +30,11 @@ class GetCharacters @Inject constructor(
         return marvelRepository.getMarvelCharacters(requestValues!!)
     }
 
-    override fun validate(requestValues: RequestValues?): Completable =
-        if (requestValues == null) {
-            Completable.error(IllegalArgumentException("Request values must be provided."))
-        } else {
+    @VisibleForTesting
+    public override fun validate(requestValues: RequestValues?): Completable =
+        if (requestValues?.limit != null) {
             Completable.complete()
+        } else {
+            Completable.error(IllegalArgumentException("Request values must be provided."))
         }
 }
