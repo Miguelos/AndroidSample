@@ -14,7 +14,7 @@ Includes:
  * Local Database for items showed in the ranking list.
  * Examples of UI testing and Unit testing.
 
-# UI/Instrumentation tests
+### UI/Instrumentation tests
 
 Under androidTest folder there are UI tests for the app happy paths. Here is the example of two 
 tests for online and offline cases placed inside `MainActivityTest.kt`
