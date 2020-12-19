@@ -9,5 +9,6 @@ data class MarvelCharacter(
     val name: String = "",
     val description: String = "",
     val thumbnail: Image = Image(),
-    val urls: List<Url> = emptyList()
+    val urls: List<Url> = emptyList(),
+    val availableComics: Int = 0
 ) : Parcelable

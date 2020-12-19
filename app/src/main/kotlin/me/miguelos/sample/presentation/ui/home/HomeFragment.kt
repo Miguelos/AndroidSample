@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import me.miguelos.sample.R
@@ -48,7 +47,7 @@ class HomeFragment : BaseFragment() {
             )
         }
         binding.rankingButton.setOnClickListener {
-                binding.homeCl.showSnackbar("Under development")
+            binding.homeCl.showSnackbar("Under development")
         }
     }
 }

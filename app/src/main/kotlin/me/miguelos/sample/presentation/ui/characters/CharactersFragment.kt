@@ -65,7 +65,6 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
         initSearch()
         initSelectUi()
         observeViewState()
-        viewModel.loadCharacters(totalItemsCount = characterAdapterMarvel?.itemCount)
     }
 
     private fun initSelectUi() {
@@ -174,10 +173,10 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
 
     private fun handleCharactersState(characters: List<MarvelCharacter>) {
         binding.emptyListTv.visibility = if (characters.isEmpty()) {
-            View.VISIBLE
+            VISIBLE
         } else {
             characterAdapterMarvel?.addItems(ArrayList(characters))
-            View.GONE
+            GONE
         }
     }
 
@@ -187,9 +186,9 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
 
     private fun handleViewState(viewState: CharactersViewState) {
         binding.listPb.visibility = if (viewState.isLoading) {
-            View.VISIBLE
+            VISIBLE
         } else {
-            View.GONE
+            GONE
         }
     }
 
@@ -215,5 +214,6 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
 
     companion object {
         const val ARG_SELECTION_ENABLED = "enable_selection"
+        const val ARG_RANKING_ENABLED = "enable_ranking"
     }
 }

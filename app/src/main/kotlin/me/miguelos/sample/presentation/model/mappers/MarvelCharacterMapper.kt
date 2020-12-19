@@ -17,7 +17,8 @@ class MarvelCharacterMapper
         name = from.name,
         description = from.description,
         thumbnail = from.thumbnail.imageUrl,
-        urls = from.urls.map { it.url }
+        urls = from.urls.map { it.url },
+        availableComics = from.availableComics
     )
 
     override fun inverseMapFrom(from: MarvelCharacter) = DomainMarvelCharacter(
@@ -25,6 +26,7 @@ class MarvelCharacterMapper
         name = from.name,
         description = from.description,
         thumbnail = Image(from.thumbnail),
-        urls = from.urls.map { Url(url = it) }
+        urls = from.urls.map { Url(url = it) },
+        availableComics = from.availableComics
     )
 }

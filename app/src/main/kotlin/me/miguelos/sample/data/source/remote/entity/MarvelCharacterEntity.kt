@@ -10,7 +10,8 @@ data class MarvelCharacterEntity(
     @JsonProperty(Properties.NAME) var name: String = "",
     @JsonProperty(Properties.DESCRIPTION) var description: String = "",
     @JsonProperty(Properties.THUMBNAIL) var thumbnail: ImageEntity = ImageEntity(),
-    @JsonProperty(Properties.URLS) var urls: List<UrlEntity> = ArrayList()
+    @JsonProperty(Properties.URLS) var urls: List<UrlEntity> = ArrayList(),
+    @JsonProperty(Properties.COMICS) var comics: ComicsEntity = ComicsEntity()
 ) {
 
     object Properties {
@@ -19,5 +20,6 @@ data class MarvelCharacterEntity(
         const val DESCRIPTION = "description"
         const val THUMBNAIL = "thumbnail"
         const val URLS = "urls"
+        const val COMICS = "comics"
     }
 }

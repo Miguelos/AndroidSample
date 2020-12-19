@@ -16,13 +16,15 @@ class MarvelCharacterDBMapper
         id = from.id,
         name = from.name,
         description = from.description,
-        thumbnail = Image(imageUrl = from.thumbnail)
+        thumbnail = Image(imageUrl = from.thumbnail),
+        availableComics = from.comics
     )
 
     override fun inverseMapFrom(from: MarvelCharacter) = MarvelCharacterDBEntity(
         id = from.id,
         name = from.name,
         description = from.description,
-        thumbnail = from.thumbnail.imageUrl
+        thumbnail = from.thumbnail.imageUrl,
+        comics = from.availableComics
     )
 }

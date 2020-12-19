@@ -19,7 +19,8 @@ data class MarvelCharacterDBEntity constructor(
     @PrimaryKey @ColumnInfo(name = COL_ID) var id: Long,
     @ColumnInfo(name = COL_NAME) var name: String,
     @ColumnInfo(name = COL_DESC) var description: String,
-    @ColumnInfo(name = COL_THUMB) var thumbnail: String
+    @ColumnInfo(name = COL_THUMB) var thumbnail: String,
+    @ColumnInfo(name = COL_COMICS) var comics: Int
 ) {
 
     val titleForList: String
@@ -34,5 +35,6 @@ data class MarvelCharacterDBEntity constructor(
         const val COL_NAME = "name"
         const val COL_DESC = "description"
         const val COL_THUMB = "thumbnail"
+        const val COL_COMICS = "availableComics"
     }
 }

@@ -3,9 +3,9 @@ package me.miguelos.sample.presentation.ui.arena
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -16,6 +16,7 @@ import me.miguelos.sample.databinding.FragmentArenaBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.model.MarvelCharacter
 import me.miguelos.sample.presentation.ui.characters.CharactersFragment
+import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
 import me.miguelos.sample.util.showSnackbar
@@ -53,11 +54,10 @@ class ArenaFragment : BaseFragment() {
     private fun initButtons() {
         setFragmentResultListener(MARVEL_CHARACTER_REQUEST_KEY) { key, bundle ->
             if (key == MARVEL_CHARACTER_REQUEST_KEY) {
-                (bundle[MARVEL_CHARACTER_1_KEY] as? MarvelCharacter)?.let {
-                    handleFighterState(true, it)
-                }
-                (bundle[MARVEL_CHARACTER_2_KEY] as? MarvelCharacter)?.let {
-                    handleFighterState(false, it)
+                (bundle[MARVEL_CHARACTER_1_KEY] as? MarvelCharacter)?.let { first ->
+                    (bundle[MARVEL_CHARACTER_2_KEY] as? MarvelCharacter)?.let { second ->
+                        viewModel.saveFighters(first, second)
+                    }
                 }
             }
         }
@@ -70,26 +70,66 @@ class ArenaFragment : BaseFragment() {
         }
 
         binding.fightB.setOnClickListener {
-            binding.arenaCl.showSnackbar("Feature under development")
+            binding.selectFightersB.isEnabled = false
+            showResult()
         }
+
+        binding.goToRankingB.setOnClickListener {
+            binding.arenaCl.showSnackbar("Under development")
+        }
+    }
+
+    private fun showResult() {
+        val winner = viewModel.getWinner()
+        listOf(binding.goToRankingB, binding.winnerLabelTv, binding.winnerTv).forEach {
+            it.visibility = VISIBLE
+        }
+        if (winner == null) {
+            binding.winnerLabelTv.text = getString(R.string.tie_message)
+            binding.winnerTv.text = ""
+        } else {
+            binding.winnerLabelTv.text = getString(R.string.winner_label)
+            binding.winnerTv.text = winner.name
+        }
+        binding.selectFightersB.isEnabled = false
+        binding.fightB.visibility = GONE
     }
 
     private fun observeViewState() {
-        // no-op
+        viewModel.viewState.observe(
+            viewLifecycleOwner,
+            { handleViewState(it) }
+        )
+
+        viewModel.errorState.observe(
+            viewLifecycleOwner,
+            { handleFeedbackState(it) }
+        )
+
+        viewModel.charactersState.observe(
+            viewLifecycleOwner,
+            { handleCharactersState(it) }
+        )
     }
 
-    private fun handleFighterState(first: Boolean, character: MarvelCharacter) {
-        val iv: ImageView
-        val tv: TextView
-        if (first) {
-            tv = binding.fighter1Tv
-            iv = binding.fighter1Iv
+    private fun handleCharactersState(characters: Pair<MarvelCharacter, MarvelCharacter>) {
+        binding.fighter1Tv.text = characters.first.name
+        imageLoader.loadCircleImage(binding.fighter1Iv, characters.first.thumbnail)
+        binding.fighter2Tv.text = characters.second.name
+        imageLoader.loadCircleImage(binding.fighter2Iv, characters.second.thumbnail)
+        binding.fightB.isEnabled = true
+    }
+
+    private fun handleFeedbackState(error: Throwable) {
+        binding.arenaCl.showSnackbar(ErrorMessageFactory.create(requireContext(), error))
+    }
+
+    private fun handleViewState(viewState: ArenaViewState) {
+        binding.arenaPb.visibility = if (viewState.isLoading) {
+            VISIBLE
         } else {
-            tv = binding.fighter2Tv
-            iv = binding.fighter2Iv
+            GONE
         }
-        tv.text = character.name
-        imageLoader.loadCircleImage(iv, character.thumbnail)
     }
 
     companion object {

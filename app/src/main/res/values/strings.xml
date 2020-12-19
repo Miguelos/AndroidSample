@@ -23,4 +23,7 @@
     <string name="title_fragment_arena">Arena</string>
     <string name="select_characters">Select characters</string>
     <string name="fight_button">Fight</string>
+    <string name="go_to_ranking_button">Show ranking</string>
+    <string name="winner_label">Winner</string>
+    <string name="tie_message">Tie</string>
 </resources>

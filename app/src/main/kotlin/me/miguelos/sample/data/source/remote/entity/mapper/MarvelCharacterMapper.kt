@@ -23,6 +23,7 @@ class MarvelCharacterMapper
         name = from.name,
         description = from.description,
         thumbnail = imageMapper.mapFrom(from.thumbnail),
-        urls = urlMapper.mapFrom(from.urls).toList()
+        urls = urlMapper.mapFrom(from.urls).toList(),
+        availableComics = from.comics.available
     )
 }

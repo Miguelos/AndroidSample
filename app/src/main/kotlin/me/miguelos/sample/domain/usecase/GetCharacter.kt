@@ -25,9 +25,8 @@ class GetCharacter @Inject constructor(
         val error: Throwable? = null
     ) : BaseUseCase.ResponseValues
 
-    override fun buildUseCase(requestValues: RequestValues?): Single<ResponseValues?> {
-        return marvelRepositoryMarvel.getMarvelCharacter(requestValues!!)
-    }
+    override fun buildUseCase(requestValues: RequestValues?): Single<ResponseValues?> =
+        marvelRepositoryMarvel.getMarvelCharacter(requestValues!!)
 
     @VisibleForTesting
     public override fun validate(requestValues: RequestValues?): Completable =

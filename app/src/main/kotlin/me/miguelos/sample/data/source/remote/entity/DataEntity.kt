@@ -3,6 +3,7 @@ package me.miguelos.sample.data.source.remote.entity
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class DataEntity<T>(
     @JsonProperty(Properties.OFFSET) var offset: Int = 0,
@@ -12,16 +13,11 @@ data class DataEntity<T>(
     @JsonProperty(Properties.RESULTS) var results: List<T> = ArrayList()
 ) {
 
-
     object Properties {
-
         const val OFFSET = "offset"
         const val LIMIT = "limit"
         const val TOTAL = "total"
         const val COUNT = "count"
         const val RESULTS = "results"
-
     }
-
-
 }

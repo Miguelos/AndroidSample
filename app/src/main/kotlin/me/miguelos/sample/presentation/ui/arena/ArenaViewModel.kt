@@ -10,11 +10,28 @@ import me.miguelos.sample.presentation.model.MarvelCharacter
 class ArenaViewModel @ViewModelInject constructor() : BaseViewModel() {
 
     var viewState: MutableLiveData<ArenaViewState> = MutableLiveData()
+    var charactersState: MutableLiveData<Pair<MarvelCharacter, MarvelCharacter>> = MutableLiveData()
     var errorState: SingleLiveEvent<Throwable> = SingleLiveEvent()
-
 
     init {
         viewState.value = ArenaViewState(isLoading = false)
     }
 
+    fun saveFighters(first: MarvelCharacter, second: MarvelCharacter) {
+        charactersState.value = Pair(first, second)
+    }
+
+    fun getWinner() = charactersState.value?.let {
+        when {
+            it.first.availableComics > it.second.availableComics -> {
+                it.first
+            }
+            it.first.availableComics < it.second.availableComics -> {
+                it.second
+            }
+            else -> {
+                null
+            }
+        }
+    }
 }
