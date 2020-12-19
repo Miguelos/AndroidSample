@@ -22,7 +22,8 @@ class GetCharacters @Inject constructor(
         val isForceUpdate: Boolean = false,
         val query: String? = null,
         val offset: Int? = null,
-        val limit: Int?
+        val limit: Int?,
+        val ranked: Boolean = false
     ) :
         BaseUseCase.RequestValues
 

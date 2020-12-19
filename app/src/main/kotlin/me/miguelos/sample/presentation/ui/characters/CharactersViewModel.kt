@@ -36,14 +36,16 @@ class CharactersViewModel @ViewModelInject constructor(
             }
             performGetCharacterList(
                 totalItemsCount = totalItemsCount,
-                query = viewState.value?.query
+                query = viewState.value?.query,
+                ranked = viewState.value?.rankingEnabled ?: false
             )
         }
     }
 
     private fun performGetCharacterList(
         totalItemsCount: Int? = null,
-        query: String? = null
+        query: String? = null,
+        ranked: Boolean = false
     ) {
         Timber.tag(javaClass.simpleName)
             .i("Getting character list (query: \"$query\" items: $totalItemsCount)")
@@ -52,6 +54,7 @@ class CharactersViewModel @ViewModelInject constructor(
             getCharacters.execute(
                 GetCharacters.RequestValues(
                     isForceUpdate = false,
+                    ranked = ranked,
                     query = query,
                     offset = totalItemsCount,
                     limit = if (query == null) {
@@ -100,7 +103,15 @@ class CharactersViewModel @ViewModelInject constructor(
         )
     }
 
+    fun enableRanking() {
+        viewState.value = viewState.value?.copy(
+            rankingEnabled = true
+        )
+    }
+
     fun isSelectionEnabled(): Boolean = viewState.value?.selectionEnabled ?: false
+
+    fun isRankingEnabled(): Boolean = viewState.value?.rankingEnabled ?: false
 
     companion object {
         const val PAGE_SIZE = 10

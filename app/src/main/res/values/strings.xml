@@ -14,10 +14,13 @@
     <!-- List/Search feature -->
     <string name="search_hint">Search for Marvel characters</string>
     <string name="no_items">No items</string>
-    <string name="title_fragment_detail">Character Detail</string>
+    <string name="title_fragment_detail">Character profile</string>
     <string name="title_fragment_list">Marvel characters</string>
     <string name="select_two_characters_button">Select two characters</string>
     <string name="go_to_arena_button">Go to Arena</string>
+    <string name="select_characters_title">Select characters</string>
+    <string name="search_characters_title">Search characters</string>
+    <string name="character_detail_title">Character profile</string>
 
     <!-- Arena feature -->
     <string name="title_fragment_arena">Arena</string>
@@ -26,4 +29,6 @@
     <string name="go_to_ranking_button">Show ranking</string>
     <string name="winner_label">Winner</string>
     <string name="tie_message">Tie</string>
+    <string name="arena_title">Arena</string>
+    <string name="arena_ranking_title">Ranking</string>
 </resources>

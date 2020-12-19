@@ -20,11 +20,13 @@ class MarvelCharacterViewHolder(
     fun bind(
         item: MarvelCharacter,
         selectionEnabled: Boolean,
+        isChecked: Boolean,
         canSelect: Boolean
     ) {
         this.character = item
         itemBinding.listItemNameTv.text = item.name
         imageLoader.loadCircleImage(itemBinding.listItemImageIv, item.thumbnail)
+        itemBinding.listItemCb.isChecked = isChecked
         if (selectionEnabled) {
             itemBinding.listItemCb.apply {
                 visibility = VISIBLE

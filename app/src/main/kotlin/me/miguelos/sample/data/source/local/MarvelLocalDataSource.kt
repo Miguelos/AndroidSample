@@ -1,5 +1,6 @@
 package me.miguelos.sample.data.source.local
 
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import me.miguelos.sample.common.TwoWaysMapper
 import me.miguelos.sample.data.source.local.entity.MarvelCharacterDBEntity
@@ -15,7 +16,7 @@ import javax.inject.Inject
  * Concrete implementation of a data source as a db.
  */
 class MarvelLocalDataSource @Inject constructor(
-    val marvelCharacterDao: MarvelCharacterDao,
+    private val marvelCharacterDao: MarvelCharacterDao,
     private val characterMapper: TwoWaysMapper<MarvelCharacterDBEntity, MarvelCharacter>
 ) : MarvelDataSource {
 
@@ -35,7 +36,7 @@ class MarvelLocalDataSource @Inject constructor(
                         val to = requestValues.offset + requestValues.limit
                         GetCharacters.ResponseValues(
                             if (from in list.indices && to - 1 in list.indices) {
-                                characterMapper.mapFrom(list).sortedBy { it.name }.toList().subList(
+                                characterMapper.mapFrom(list).toList().subList(
                                     requestValues.offset,
                                     requestValues.offset + requestValues.limit
                                 )
@@ -46,8 +47,7 @@ class MarvelLocalDataSource @Inject constructor(
                     }
                     else -> {
                         GetCharacters.ResponseValues(
-                            characterMapper.mapFrom(list)
-                                .sortedBy { it.name }.toList()
+                            characterMapper.mapFrom(list).toList()
                         )
                     }
                 }
@@ -56,9 +56,13 @@ class MarvelLocalDataSource @Inject constructor(
     override fun getMarvelCharacter(
         requestValues: GetCharacter.RequestValues
     ): Single<GetCharacter.ResponseValues?> =
-        Single.fromCallable { marvelCharacterDao.getMarvelCharacterById(requestValues.id) }
+        Maybe.fromCallable { marvelCharacterDao.getMarvelCharacterById(requestValues.id) }
             .map {
                 GetCharacter.ResponseValues(characterMapper.mapOptional(it))
+            }
+            .toSingle()
+            .onErrorResumeNext {
+                Single.just(GetCharacter.ResponseValues())
             }
 
     override fun deleteAllMarvelCharacters() {

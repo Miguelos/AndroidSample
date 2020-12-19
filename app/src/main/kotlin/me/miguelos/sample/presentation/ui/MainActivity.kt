@@ -12,22 +12,32 @@ import me.miguelos.sample.databinding.ActivityMainBinding
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ToolbarTitleListener {
+
+    private var binding: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
         val navHostFragment: NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController: NavController = navHostFragment.navController
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding?.toolbar?.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    override fun updateTitle(title: String) {
+        binding?.toolbar?.title = title
     }
 
     companion object {
         const val ARG_ID = "character_id"
     }
+}
+
+interface ToolbarTitleListener {
+    fun updateTitle(title: String)
 }

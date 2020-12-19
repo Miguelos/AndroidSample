@@ -3,6 +3,7 @@ package me.miguelos.sample.util
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
+
 val Any.TAG: String
     get() {
         val tag = this::class.simpleName ?: ""

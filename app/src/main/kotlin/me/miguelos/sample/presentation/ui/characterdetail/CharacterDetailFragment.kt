@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import me.miguelos.sample.R
 import me.miguelos.sample.databinding.FragmentCharacterDetailBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.model.MarvelCharacter
+import me.miguelos.sample.presentation.ui.MainActivity
 import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
 import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
@@ -41,6 +43,8 @@ class CharacterDetailFragment : BaseFragment() {
     }
 
     private fun initUi() {
+        (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.character_detail_title))
+
         observeViewState()
         arguments?.getLong(ARG_ID)?.let { viewModel.saveId(it) }
     }

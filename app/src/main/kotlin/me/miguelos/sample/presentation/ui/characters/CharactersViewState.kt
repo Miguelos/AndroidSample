@@ -3,5 +3,6 @@ package me.miguelos.sample.presentation.ui.characters
 data class CharactersViewState(
     var isLoading: Boolean = false,
     var query: String = "",
-    var selectionEnabled: Boolean = false
+    var selectionEnabled: Boolean = false,
+    var rankingEnabled: Boolean = false
 )

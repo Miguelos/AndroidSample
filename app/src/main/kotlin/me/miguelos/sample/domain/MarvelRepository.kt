@@ -18,8 +18,6 @@ interface MarvelRepository {
         requestValues: GetCharacter.RequestValues
     ): Single<GetCharacter.ResponseValues?>
 
-    fun refreshMarvelCharacters()
-
     fun deleteAllMarvelCharacters()
 
     fun saveMarvelCharacters(

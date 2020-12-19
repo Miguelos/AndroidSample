@@ -15,6 +15,7 @@ import me.miguelos.sample.R
 import me.miguelos.sample.databinding.FragmentArenaBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.model.MarvelCharacter
+import me.miguelos.sample.presentation.ui.MainActivity
 import me.miguelos.sample.presentation.ui.characters.CharactersFragment
 import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
@@ -47,6 +48,8 @@ class ArenaFragment : BaseFragment() {
     }
 
     private fun initUi() {
+        (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.arena_title))
+
         initButtons()
         observeViewState()
     }
@@ -75,7 +78,10 @@ class ArenaFragment : BaseFragment() {
         }
 
         binding.goToRankingB.setOnClickListener {
-            binding.arenaCl.showSnackbar("Under development")
+            findNavController().navigate(
+                R.id.action_arenaFragment_to_charactersFragment,
+                bundleOf(CharactersFragment.ARG_RANKING_ENABLED to true)
+            )
         }
     }
 

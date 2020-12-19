@@ -90,6 +90,7 @@ class MarvelCharactersAdapter(
         holderMarvel.bind(
             items[position],
             selectionEnabled,
+            items[position] in checkedItems,
             checkedItems.size < 2
         )
 }

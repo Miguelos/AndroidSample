@@ -35,8 +35,8 @@ class SaveCharacters @Inject constructor(
     @VisibleForTesting
     public override fun validate(requestValues: RequestValues?): Completable =
         if (requestValues?.marvelCharacters?.isEmpty() != false) {
-            Completable.complete()
-        } else {
             Completable.error(IllegalArgumentException("Request values must be provided."))
+        } else {
+            Completable.complete()
         }
 }

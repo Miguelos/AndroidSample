@@ -39,7 +39,9 @@ class GetCharactersTest : TestCase() {
     @Test
     fun testValidate() {
         assertThat(
-            getCharacters.validate(GetCharacters.RequestValues(false, "", 0, 10)),
+            getCharacters.validate(
+                GetCharacters.RequestValues(false, "", 0, 10, false)
+            ),
             instanceOf(CompletableEmpty.INSTANCE::class.java)
         )
     }

@@ -12,7 +12,7 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun addDisposable(disposable: Disposable) {
         Timber.tag("BaseViewModel")
-            .d("Add diposable $disposable")
+            .d("Add disposable $disposable")
         disposables.add(disposable)
     }
 

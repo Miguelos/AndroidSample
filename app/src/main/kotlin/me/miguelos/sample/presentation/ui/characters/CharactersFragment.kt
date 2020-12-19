@@ -20,6 +20,7 @@ import me.miguelos.sample.databinding.FragmentCharactersBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.core.EndlessRecyclerViewScrollListener
 import me.miguelos.sample.presentation.model.MarvelCharacter
+import me.miguelos.sample.presentation.ui.MainActivity
 import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
 import me.miguelos.sample.presentation.ui.arena.ArenaFragment
 import me.miguelos.sample.presentation.ui.characters.adapter.MarvelCharactersAdapter
@@ -56,11 +57,25 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     }
 
     private fun initUi() {
+        (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.title_fragment_list))
+
         arguments?.getBoolean(ARG_SELECTION_ENABLED)?.let {
             if (it) {
+                (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.select_characters_title))
                 viewModel.enableSelection()
             }
         }
+
+        arguments?.getBoolean(ARG_RANKING_ENABLED)?.let {
+            if (it) {
+                (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.arena_ranking_title))
+
+                viewModel.enableRanking()
+                characterAdapterMarvel?.clear()
+                loadMarvelCharacters()
+            }
+        }
+
         initAdapter()
         initSearch()
         initSelectUi()
@@ -115,7 +130,10 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     private fun initSearch() {
         binding.searchEt.apply {
             setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_GO) {
+                if (
+                    actionId == EditorInfo.IME_ACTION_GO
+                    || actionId == EditorInfo.IME_ACTION_SEARCH
+                ) {
                     loadMarvelCharacters()
                     true
                 } else {
@@ -134,25 +152,17 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     }
 
     private fun loadMarvelCharacters() {
-        getSearchQuery()?.let {
-            binding.charactersRv.scrollToPosition(0)
-            viewModel.loadCharacters(it.toString())
-            characterAdapterMarvel?.apply {
-                clear()
-                notifyDataSetChanged()
-            }
-            binding.charactersRv.recycledViewPool.clear()
+        binding.charactersRv.scrollToPosition(0)
+        viewModel.loadCharacters(getSearchQuery().toString())
+        characterAdapterMarvel?.apply {
+            clear()
+            notifyDataSetChanged()
         }
+        binding.charactersRv.recycledViewPool.clear()
     }
 
     private fun getSearchQuery() =
-        binding.searchEt.text.trim().let {
-            if (it.isNotBlank()) {
-                it
-            } else {
-                null
-            }
-        }
+        binding.searchEt.text.trim()
 
     private fun observeViewState() {
         viewModel.viewState.observe(
@@ -172,12 +182,13 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     }
 
     private fun handleCharactersState(characters: List<MarvelCharacter>) {
-        binding.emptyListTv.visibility = if (characters.isEmpty()) {
-            VISIBLE
-        } else {
-            characterAdapterMarvel?.addItems(ArrayList(characters))
-            GONE
-        }
+        characterAdapterMarvel?.addItems(ArrayList(characters))
+        binding.emptyListTv.visibility =
+            if (characterAdapterMarvel != null && characterAdapterMarvel!!.itemCount > 0) {
+                GONE
+            } else {
+                VISIBLE
+            }
     }
 
     private fun handleFeedbackState(error: Throwable) {
