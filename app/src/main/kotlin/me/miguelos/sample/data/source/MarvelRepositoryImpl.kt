@@ -53,7 +53,7 @@ class MarvelRepositoryImpl @Inject constructor(
                 remoteResponse
             )
                 .filter { response -> response?.marvelCharacters?.isNotEmpty() == true }
-                .firstOrError()
+                .first(GetCharacters.ResponseValues())
         }
     }
 
@@ -62,15 +62,28 @@ class MarvelRepositoryImpl @Inject constructor(
     ): Single<GetCharacters.ResponseValues?> =
         Single.just(
             GetCharacters.ResponseValues(
-                cachedMarvelCharacters.values.sortedBy { it.name }.subList(
-                    requestValues.offset,
-                    requestValues.offset + requestValues.limit,
-                )
+                if (requestValues.offset != null && requestValues.limit != null) {
+                    cachedMarvelCharacters.values.sortedBy { it.name }.subList(
+                        requestValues.offset,
+                        requestValues.offset + requestValues.limit,
+                    )
+                } else if (requestValues.query != null) {
+                    cachedMarvelCharacters.values
+                        .filter { it.name.startsWith(requestValues.query) }
+                        .sortedBy { it.name }
+                } else {
+                    emptyList()
+                }
             )
         )
 
     private fun marvelCharactersCached(requestValues: GetCharacters.RequestValues): Boolean =
-        cachedMarvelCharacters.size > requestValues.offset * requestValues.limit
+        if (requestValues.offset != null && requestValues.limit != null) {
+            cachedMarvelCharacters.size > requestValues.offset * requestValues.limit
+        } else {
+            // Cache only for list items, not search
+            false
+        }
 
     private fun getAndCacheLocalMarvelCharacters(
         requestValues: GetCharacters.RequestValues

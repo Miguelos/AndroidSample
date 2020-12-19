@@ -16,6 +16,7 @@ interface MarvelService {
 
     @GET("characters")
     fun getCharacters(
+        @Query(NAME_QUERY) nameStartsWith: String? = null,
         @Query(OFFSET) offset: Int? = null,
         @Query(LIMIT) limit: Int? = null
     ): Single<CharactersResponse>
@@ -27,5 +28,6 @@ interface MarvelService {
         const val ID = "id"
         const val OFFSET = "offset"
         const val LIMIT = "limit"
+        const val NAME_QUERY = "nameStartsWith"
     }
 }

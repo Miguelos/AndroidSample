@@ -23,7 +23,11 @@ class MarvelRemoteDataSource @Inject constructor(
     override fun getMarvelCharacters(
         requestValues: GetCharacters.RequestValues
     ): Single<GetCharacters.ResponseValues?> =
-        marvelService.getCharacters(requestValues.offset, requestValues.limit)
+        marvelService.getCharacters(
+            requestValues.query,
+            requestValues.offset,
+            requestValues.limit
+        )
             .map { response ->
                 when {
                     response.hasData -> {

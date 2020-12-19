@@ -16,8 +16,8 @@ interface MarvelCharacterDao {
      *
      * @return all Marvel characters.
      */
-    @Query("SELECT * FROM $TABLE_NAME")
-    fun getMarvelCharacters(): List<MarvelCharacterDBEntity>
+    @Query("SELECT * FROM $TABLE_NAME WHERE name LIKE :search")
+    fun getMarvelCharacters(search: String?): List<MarvelCharacterDBEntity>
 
     /**
      * Select a Marvel character by id.

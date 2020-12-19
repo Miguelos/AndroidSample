@@ -3,4 +3,5 @@
     <string name="no_items">No items</string>
     <string name="exception_message_no_connection">Error trying to connect to the server. Check your network connection status</string>
     <string name="exception_message_generic">There was an application error</string>
+    <string name="search_hint">Search for Marvel characters</string>
 </resources>

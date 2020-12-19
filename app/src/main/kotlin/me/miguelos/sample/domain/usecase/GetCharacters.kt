@@ -18,7 +18,12 @@ class GetCharacters @Inject constructor(
     private val marvelRepository: MarvelRepository
 ) : SingleUseCase<GetCharacters.RequestValues?, GetCharacters.ResponseValues?>(executionSchedulers) {
 
-    class RequestValues(val isForceUpdate: Boolean, val offset: Int, val limit: Int) :
+    class RequestValues(
+        val isForceUpdate: Boolean = false,
+        val query: String? = null,
+        val offset: Int? = null,
+        val limit: Int?
+    ) :
         BaseUseCase.RequestValues
 
     class ResponseValues(
@@ -32,7 +37,7 @@ class GetCharacters @Inject constructor(
 
     @VisibleForTesting
     public override fun validate(requestValues: RequestValues?): Completable =
-        if (requestValues?.limit != null) {
+        if (requestValues?.limit != null || requestValues?.query != null) {
             Completable.complete()
         } else {
             Completable.error(IllegalArgumentException("Request values must be provided."))

@@ -1,6 +1,5 @@
 package me.miguelos.sample.domain
 
-import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import me.miguelos.sample.domain.usecase.GetCharacter
 import me.miguelos.sample.domain.usecase.GetCharacters

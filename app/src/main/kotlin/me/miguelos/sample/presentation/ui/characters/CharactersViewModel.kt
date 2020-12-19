@@ -26,43 +26,59 @@ class CharactersViewModel @ViewModelInject constructor(
         viewState.value = CharactersViewState(isLoading = false)
     }
 
-    fun loadMoreCharacters(totalItemsCount: Int) {
+    fun loadCharacters(query: String? = null, totalItemsCount: Int? = 0) {
         if (viewState.value?.isLoading == false) {
             viewState.value = viewState.value?.copy(isLoading = true)
-            performGetChatList(totalItemsCount)
+            if (query != null) {
+                viewState.value = viewState.value?.copy(
+                    query = query
+                )
+            }
+            performGetCharacterList(
+                totalItemsCount = totalItemsCount,
+                query = viewState.value?.query
+            )
         }
     }
 
-    private fun performGetChatList(totalItemsCount: Int) {
+    private fun performGetCharacterList(
+        totalItemsCount: Int? = null,
+        query: String? = null
+    ) {
         Timber.tag(javaClass.simpleName)
-            .i("Getting character list ($totalItemsCount items)")
+            .i("Getting character list (query: \"$query\" items: $totalItemsCount)")
 
-        addDisposable(getCharacters
-            .execute(
+        addDisposable(
+            getCharacters.execute(
                 GetCharacters.RequestValues(
-                    false,
-                    totalItemsCount,
-                    PAGE_SIZE
+                    isForceUpdate = false,
+                    query = query,
+                    offset = totalItemsCount,
+                    limit = if (query == null) {
+                        PAGE_SIZE
+                    } else {
+                        null
+                    }
                 )
             )
-            .subscribe({ response ->
-                characterMapper.mapOptional(
-                    (response as? GetCharacters.ResponseValues)?.marvelCharacters
-                )?.toList()?.let {
-                    Timber.i("Characters received $it")
-                    handleCharacters(it)
-                }
-                viewState.value = viewState.value?.copy(
-                    isLoading = false
-                )
-            },
-                {
-                    handleError(it)
+                .subscribe({ response ->
+                    characterMapper.mapOptional(
+                        (response as? GetCharacters.ResponseValues)?.marvelCharacters
+                    )?.toList()?.let {
+                        Timber.i("Characters received $it")
+                        handleCharacters(it)
+                    }
                     viewState.value = viewState.value?.copy(
                         isLoading = false
                     )
-                }
-            )
+                },
+                    {
+                        handleError(it)
+                        viewState.value = viewState.value?.copy(
+                            isLoading = false
+                        )
+                    }
+                )
         )
     }
 

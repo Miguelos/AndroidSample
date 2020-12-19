@@ -22,20 +22,35 @@ class MarvelLocalDataSource @Inject constructor(
     override fun getMarvelCharacters(
         requestValues: GetCharacters.RequestValues
     ): Single<GetCharacters.ResponseValues?> =
-        Single.fromCallable { marvelCharacterDao.getMarvelCharacters() }
+        Single.fromCallable {
+            marvelCharacterDao.getMarvelCharacters("${requestValues.query}%")
+        }
             .map { list ->
-                val from = requestValues.offset
-                val to = requestValues.offset + requestValues.limit
-                GetCharacters.ResponseValues(
-                    if (from in list.indices && to - 1 in list.indices) {
-                        characterMapper.mapFrom(list).sortedBy { it.name }.toList().subList(
-                            requestValues.offset,
-                            requestValues.offset + requestValues.limit
-                        )
-                    } else {
-                        emptyList()
+                when {
+                    requestValues.offset != null && requestValues.offset >= list.size -> {
+                        GetCharacters.ResponseValues(emptyList())
                     }
-                )
+                    requestValues.offset != null && requestValues.limit != null -> {
+                        val from = requestValues.offset
+                        val to = requestValues.offset + requestValues.limit
+                        GetCharacters.ResponseValues(
+                            if (from in list.indices && to - 1 in list.indices) {
+                                characterMapper.mapFrom(list).sortedBy { it.name }.toList().subList(
+                                    requestValues.offset,
+                                    requestValues.offset + requestValues.limit
+                                )
+                            } else {
+                                emptyList()
+                            }
+                        )
+                    }
+                    else -> {
+                        GetCharacters.ResponseValues(
+                            characterMapper.mapFrom(list)
+                                .sortedBy { it.name }.toList()
+                        )
+                    }
+                }
             }
 
     override fun getMarvelCharacter(

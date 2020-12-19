@@ -22,12 +22,9 @@ class AuthInterceptor(
         return chain.proceed(chain.request().authorize())
     }
 
-    private fun Request.authorize(): Request {
-        return this.newBuilder()
-            .url(this.createAuthorizedUrl())
-            .build()
-    }
-
+    private fun Request.authorize(): Request = this.newBuilder()
+        .url(this.createAuthorizedUrl())
+        .build()
 
     private fun Request.createAuthorizedUrl(): HttpUrl = this.url
         .newBuilder()
