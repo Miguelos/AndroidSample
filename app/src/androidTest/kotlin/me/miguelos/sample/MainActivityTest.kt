@@ -60,11 +60,14 @@ class MainActivityTest {
     @Test
     fun mainActivity() {
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-        onView(withId(R.id.characters_cl)).check(matches(isDisplayed()))
+        onView(withId(R.id.list_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.arena_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.ranking_button)).check(matches(isDisplayed()))
     }
 
     @Test
-    fun itemClick() {
+    fun happyPath() {
+        robot.doOnView(withId(R.id.list_button), click())
         robot.doOnView(withId(R.id.characters_rv), click())
         robot.assertOnView(withId(R.id.character_cl))
     }

@@ -48,6 +48,12 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    dexOptions {
+        incremental false
+        javaMaxHeapSize "2048M"
+        preDexLibraries = false
+    }
+
     configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
     }

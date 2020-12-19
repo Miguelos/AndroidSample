@@ -37,7 +37,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initButtons() {
-        binding.searchButton.setOnClickListener {
+        binding.listButton.setOnClickListener {
             findNavController().navigate(
                 R.id.action_homeFragment_to_charactersFragment
             )

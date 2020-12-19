@@ -16,7 +16,7 @@ buildscript {
         espressoVersion = "3.3.0"
         retrofitVersion = "2.9.0"
         activityVersion = "1.1.0"
-        fragmentVersion = "1.3.0-beta02"
+        fragmentVersion = "1.3.0-rc01"
         klintVersion = "9.4.1"
     }
 
