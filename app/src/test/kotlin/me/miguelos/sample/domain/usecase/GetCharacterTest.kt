@@ -14,12 +14,13 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 
 
 class GetCharacterTest : TestCase() {
 
     @Rule
-    var rule = MockitoJUnit.rule()
+    var rule: MockitoRule = MockitoJUnit.rule()
 
     @Mock
     private lateinit var marvelRepository: MarvelRepository

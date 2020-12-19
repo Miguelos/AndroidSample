@@ -31,8 +31,8 @@ class MarvelCharacterViewHolder(
             itemBinding.listItemCb.apply {
                 visibility = VISIBLE
                 isEnabled = canSelect || itemBinding.listItemCb.isChecked
-                setOnCheckedChangeListener { _, isChecked ->
-                    listener.onCheckedCharacter(item, isChecked)
+                setOnClickListener {
+                    listener.onCheckedCharacter(item, itemBinding.listItemCb.isChecked)
                 }
             }
         } else {

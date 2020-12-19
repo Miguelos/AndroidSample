@@ -5,7 +5,7 @@
     <string name="exception_message_no_connection">Error trying to connect to the server. Check your network connection status</string>
     <string name="exception_message_generic">There was an application error</string>
     <string name="close_button">Close</string>
-    <string name="dialog_no_internet_connection">There is no internet connection. You can check the Ranking offline</string>
+    <string name="dialog_offline">There is no internet connection. You can check the Ranking offline</string>
 
     <!-- Home feature -->
     <string name="title_fragment_home">Home</string>
@@ -21,7 +21,6 @@
     <string name="select_two_characters_button">Select two characters</string>
     <string name="go_to_arena_button">Go to Arena</string>
     <string name="select_characters_title">Select characters</string>
-    <string name="search_characters_title">Search characters</string>
     <string name="character_detail_title">Character profile</string>
 
     <!-- Arena feature -->

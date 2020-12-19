@@ -1,12 +1,10 @@
 package me.miguelos.sample
 
 import androidx.lifecycle.Lifecycle
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -37,7 +35,7 @@ class MainActivityTest {
     @JvmField
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-    var robot = BaseRobot()
+    private var robot = BaseRobot()
 
     @Before
     fun init() {
@@ -59,16 +57,50 @@ class MainActivityTest {
 
     @Test
     fun mainActivity() {
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-        onView(withId(R.id.list_button)).check(matches(isDisplayed()))
-        onView(withId(R.id.arena_button)).check(matches(isDisplayed()))
-        onView(withId(R.id.ranking_button)).check(matches(isDisplayed()))
+        robot.assertOnView(withId(R.id.toolbar))
+        robot.assertOnView(withId(R.id.list_button))
+        robot.assertOnView(withId(R.id.arena_button))
+        robot.assertOnView(withId(R.id.ranking_button))
     }
 
     @Test
-    fun happyPath() {
-        robot.doOnView(withId(R.id.list_button), click())
-        robot.doOnView(withId(R.id.characters_rv), click())
+    fun searchList() {
+        robot.turnOnInternetConnections()
+        robot.clickButton(R.id.list_button)
+        robot.fillEditTextAndApply(R.id.search_et, "loki")
+        robot.doOnView(withText("Loki"), ViewActions.click())
         robot.assertOnView(withId(R.id.character_cl))
+    }
+
+    /**
+     * Check that without Internet connection an alert is shown to the user when searching for
+     * characters.
+     */
+    @Test
+    fun arenaFightHappyPath() {
+        robot.turnOnInternetConnections()
+        robot.clickButton(R.id.arena_button)
+        robot.clickButton(R.id.select_fighters_b)
+        robot.fillEditTextAndApply(R.id.search_et, "lo")
+        robot.clickNthView(R.id.characters_rv, R.id.list_item_cb, 0)
+        robot.clickNthView(R.id.characters_rv, R.id.list_item_cb, 1)
+        robot.clickButton(R.id.select_list_items_b)
+        robot.clickButton(R.id.fight_b)
+        robot.turnOffInternetConnections()
+        robot.clickButton(R.id.go_to_ranking_b)
+        robot.assertOnView(withId(R.id.list_item_name_tv))
+        robot.turnOnInternetConnections()
+    }
+
+    /**
+     * Check that without Internet the Ranking shows previous characters involved in battles
+     */
+    @Test
+    fun offlineSearchList() {
+        robot.turnOffInternetConnections()
+        robot.clickButton(R.id.list_button)
+        robot.fillEditTextAndApply(R.id.search_et, "loki")
+        robot.assertOnView(withText(R.string.dialog_offline))
+        robot.turnOnInternetConnections()
     }
 }

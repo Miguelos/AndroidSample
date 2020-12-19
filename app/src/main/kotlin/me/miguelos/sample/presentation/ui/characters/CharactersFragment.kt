@@ -158,7 +158,9 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
         viewModel.loadCharacters(getSearchQuery().toString())
         characterAdapterMarvel?.apply {
             clear()
-            notifyDataSetChanged()
+            binding.charactersRv.post {
+                notifyDataSetChanged()
+            }
         }
         binding.charactersRv.recycledViewPool.clear()
     }
@@ -196,7 +198,7 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     private fun handleFeedbackState(error: Throwable) {
         if (error is UnknownHostException) {
             (requireActivity() as? MainActivity)?.showDialog(
-                getString(R.string.dialog_no_internet_connection)
+                getString(R.string.dialog_offline)
             )
         } else {
             binding.charactersCl.showSnackbar(ErrorMessageFactory.create(requireContext(), error))
@@ -214,7 +216,9 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     override fun onCheckedCharacter(character: MarvelCharacter, checked: Boolean) {
         characterAdapterMarvel?.let { adapter ->
             adapter.checkItem(character, checked)
-            adapter.notifyDataSetChanged()
+            binding.charactersRv.post {
+                adapter.notifyDataSetChanged()
+            }
             updateGoToArenaButton()
         }
     }

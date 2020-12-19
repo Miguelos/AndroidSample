@@ -54,7 +54,7 @@ class ArenaViewModel @ViewModelInject constructor(
         )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ _ ->
+            .subscribe({
                 viewState.value = viewState.value?.copy(
                     isLoading = false
                 )

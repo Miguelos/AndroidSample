@@ -42,9 +42,9 @@ class GlideImageLoader
             .into(imageView)
     }
 
-    override fun <T : ImageView> loadCircleImage(imageView: T, url: String) {
+    override fun <T : ImageView> loadCircleImage(imageView: T, uri: String) {
         requestManager
-            .load(url)
+            .load(uri)
             .apply(RequestOptions.circleCropTransform())
             .into(imageView)
     }

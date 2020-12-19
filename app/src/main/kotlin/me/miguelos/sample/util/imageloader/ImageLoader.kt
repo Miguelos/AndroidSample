@@ -44,5 +44,5 @@ interface ImageLoader {
      * @param uri path to resource, url, ...
      * @param imageView The target ImageView or similar to load the image into.
      */
-    fun <T : ImageView> loadCircleImage(imageView: T, url: String)
+    fun <T : ImageView> loadCircleImage(imageView: T, uri: String)
 }

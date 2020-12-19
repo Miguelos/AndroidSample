@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener {
 
     private fun handleConnectionState(connected: Boolean) {
         if (!connected) {
-            binding?.mainll?.showSnackbar(getString(R.string.dialog_no_internet_connection))
+            binding?.mainLl?.showSnackbar(getString(R.string.dialog_offline))
         }
     }
 

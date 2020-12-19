@@ -11,8 +11,48 @@ Sample App for use and practise of different libraries.
 For now it shows a list of Marvel Characters from Marvel API.
 
 Includes:
- * Examples of UI testing and Unit testing. 
- * Local Database and Cache for items showed in the list
+ * Local Database for items showed in the ranking list.
+ * Examples of UI testing and Unit testing.
+
+# UI/Instrumentation tests
+
+Under androidTest folder there are UI tests for the app happy paths. Here is the example of two 
+tests for online and offline cases placed inside `MainActivityTest.kt`
+
+```Kotlin
+    /**
+     * Check that without Internet connection an alert is shown to the user when searching for
+     * characters.
+     */
+    @Test
+    fun arenaFightHappyPath() {
+        robot.turnOnInternetConnections()
+        robot.clickButton(R.id.arena_button)
+        robot.clickButton(R.id.select_fighters_b)
+        robot.fillEditTextAndApply(R.id.search_et, "lo")
+        robot.clickNthView(R.id.characters_rv, R.id.list_item_cb, 0)
+        robot.clickNthView(R.id.characters_rv, R.id.list_item_cb, 1)
+        robot.clickButton(R.id.select_list_items_b)
+        robot.clickButton(R.id.fight_b)
+        robot.turnOffInternetConnections()
+        robot.clickButton(R.id.go_to_ranking_b)
+        robot.assertOnView(withId(R.id.list_item_name_tv))
+        robot.turnOnInternetConnections()
+    }
+
+    /**
+     * Check that without Internet the Ranking shows previous characters involved in battles
+     */
+    @Test
+    fun offlineSearchList() {
+        robot.turnOffInternetConnections()
+        robot.clickButton(R.id.list_button)
+        robot.fillEditTextAndApply(R.id.search_et, "loki")
+        robot.assertOnView(withText(R.string.dialog_offline))
+        robot.turnOnInternetConnections()
+    }
+```
+
 
 ## Features and Libraries
 * Clean Architecture with MVVM
