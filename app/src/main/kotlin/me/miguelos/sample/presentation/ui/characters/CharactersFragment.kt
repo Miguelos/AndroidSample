@@ -11,10 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.miguelos.sample.R
-import me.miguelos.sample.databinding.CharactersFragmentBinding
+import me.miguelos.sample.databinding.FragmentCharactersBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.core.EndlessRecyclerViewScrollListener
 import me.miguelos.sample.presentation.model.MarvelCharacter
@@ -23,13 +22,14 @@ import me.miguelos.sample.presentation.ui.characters.adapter.CharactersAdapter
 import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
+import me.miguelos.sample.util.showSnackbar
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListener {
 
-    private var binding: CharactersFragmentBinding by autoCleared()
+    private var binding: FragmentCharactersBinding by autoCleared()
     private val viewModel: CharactersViewModel by viewModels()
 
     private var characterAdapter: CharactersAdapter? = null
@@ -42,7 +42,7 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = CharactersFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentCharactersBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -150,11 +150,7 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
     }
 
     private fun handleFeedbackState(error: Throwable) {
-        Snackbar.make(
-            binding.charactersCl,
-            ErrorMessageFactory.create(requireContext(), error),
-            Snackbar.LENGTH_LONG
-        ).show()
+        binding.charactersCl.showSnackbar(ErrorMessageFactory.create(requireContext(), error))
     }
 
     private fun handleViewState(viewState: CharactersViewState) {

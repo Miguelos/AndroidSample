@@ -5,22 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import me.miguelos.sample.databinding.CharacterDetailFragmentBinding
+import me.miguelos.sample.databinding.FragmentCharacterDetailBinding
 import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.model.MarvelCharacter
 import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
 import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
+import me.miguelos.sample.util.showSnackbar
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class CharacterDetailFragment : BaseFragment() {
 
-    private var binding by autoCleared<CharacterDetailFragmentBinding>()
+    private var binding by autoCleared<FragmentCharacterDetailBinding>()
     private val viewModel: CharacterDetailViewModel by viewModels()
 
     @Inject
@@ -30,8 +30,8 @@ class CharacterDetailFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = CharacterDetailFragmentBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentCharacterDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -58,11 +58,7 @@ class CharacterDetailFragment : BaseFragment() {
     }
 
     private fun handleFeedbackState(error: Throwable) {
-        Snackbar.make(
-            binding.characterCl,
-            ErrorMessageFactory.create(requireContext(), error),
-            Snackbar.LENGTH_LONG
-        ).show()
+        binding.characterCl.showSnackbar(ErrorMessageFactory.create(requireContext(), error))
     }
 
     private fun handleViewState(viewState: CharacterViewState) {
