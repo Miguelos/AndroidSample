@@ -28,6 +28,7 @@ import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
 import me.miguelos.sample.util.showSnackbar
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 
@@ -192,7 +193,13 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     }
 
     private fun handleFeedbackState(error: Throwable) {
-        binding.charactersCl.showSnackbar(ErrorMessageFactory.create(requireContext(), error))
+        if (error is UnknownHostException) {
+            (requireActivity() as? MainActivity)?.showDialog(
+                getString(R.string.dialog_no_internet_connection)
+            )
+        } else {
+            binding.charactersCl.showSnackbar(ErrorMessageFactory.create(requireContext(), error))
+        }
     }
 
     private fun handleViewState(viewState: CharactersViewState) {

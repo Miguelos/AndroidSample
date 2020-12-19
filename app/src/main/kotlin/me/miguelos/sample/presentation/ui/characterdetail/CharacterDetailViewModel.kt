@@ -2,7 +2,9 @@ package me.miguelos.sample.presentation.ui.characterdetail
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.exceptions.CompositeException
+import io.reactivex.rxjava3.schedulers.Schedulers
 import me.miguelos.sample.common.TwoWaysMapper
 import me.miguelos.sample.domain.usecase.GetCharacter
 import me.miguelos.sample.presentation.core.BaseViewModel
@@ -44,6 +46,8 @@ class CharacterDetailViewModel @ViewModelInject constructor(
 
         addDisposable(getCharacter
             .execute(GetCharacter.RequestValues(false, id))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { response ->
                     characterMapper.mapOptional(

@@ -1,5 +1,6 @@
 package me.miguelos.sample.util
 
+import android.net.ConnectivityManager
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 

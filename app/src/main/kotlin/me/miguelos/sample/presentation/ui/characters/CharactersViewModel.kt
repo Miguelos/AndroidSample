@@ -2,7 +2,9 @@ package me.miguelos.sample.presentation.ui.characters
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.exceptions.CompositeException
+import io.reactivex.rxjava3.schedulers.Schedulers
 import me.miguelos.sample.common.TwoWaysMapper
 import me.miguelos.sample.domain.usecase.GetCharacters
 import me.miguelos.sample.presentation.core.BaseViewModel
@@ -64,6 +66,8 @@ class CharactersViewModel @ViewModelInject constructor(
                     }
                 )
             )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     characterMapper.mapOptional(
                         (response as? GetCharacters.ResponseValues)?.marvelCharacters
