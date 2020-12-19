@@ -178,6 +178,8 @@ atlassian-ide-plugin.xml
 # Sonarlint plugin
 # https://plugins.jetbrains.com/plugin/7973-sonarlint
 .idea/**/sonarlint/
+.idea/**/sonarlint.xml
+.idea/**/sonarlint-state.xml
 
 # SonarQube Plugin
 # https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin

@@ -37,7 +37,7 @@
             android:id="@+id/characters_rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/select_list_items_b"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/input_layout" />
@@ -60,10 +60,24 @@
             android:gravity="center"
             android:text="@string/no_items"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/select_list_items_b"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/select_list_items_b"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            tools:visibility="visible"
+            android:enabled="false"
+            android:text="@string/select_two_characters_button"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            app:layout_constraintTop_toBottomOf="@+id/characters_rv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

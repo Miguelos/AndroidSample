@@ -12,75 +12,66 @@
         android:id="@+id/fighter1_iv"
         android:layout_width="@dimen/arena_image_size"
         android:layout_height="100dp"
-        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/fighter1_tv"
         app:layout_constraintEnd_toStartOf="@+id/fighter2_iv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:src="@drawable/ic_launcher_background" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/fighter1_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/select_fighter1_b"
-        app:layout_constraintEnd_toEndOf="@+id/fighter1_iv"
+        android:singleLine="false"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/select_fighters_b"
+        app:layout_constraintEnd_toStartOf="@+id/fighter2_tv"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/fighter1_iv"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fighter1_iv"
         tools:text="Fighter 1" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/select_fighter1_b"
+        android:id="@+id/select_fighters_b"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/select_character"
+        android:layout_marginBottom="@dimen/screen_margin"
+        android:text="@string/select_characters"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/select_fighter2_b"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fighter1_tv" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/fighter2_iv"
         android:layout_width="@dimen/arena_image_size"
         android:layout_height="100dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@+id/fighter2_tv"
-        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/fighter1_iv"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:src="@drawable/ic_launcher_background" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/fighter2_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/select_fighter2_b"
-        app:layout_constraintEnd_toEndOf="@+id/fighter2_iv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/fighter2_iv"
-        app:layout_constraintTop_toBottomOf="@+id/fighter2_iv"
-        tools:text="Fighter 2" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/select_fighter2_b"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/select_character"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        android:singleLine="false"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/select_fighters_b"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/select_fighter1_b"
-        app:layout_constraintTop_toBottomOf="@+id/fighter2_tv" />
+        app:layout_constraintStart_toEndOf="@+id/fighter1_tv"
+        app:layout_constraintTop_toBottomOf="@+id/fighter2_iv"
+        tools:text="Very very very very long name Fighter 2" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fight_b"

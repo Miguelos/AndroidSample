@@ -11,7 +11,6 @@ class ArenaViewModel @ViewModelInject constructor() : BaseViewModel() {
 
     var viewState: MutableLiveData<ArenaViewState> = MutableLiveData()
     var errorState: SingleLiveEvent<Throwable> = SingleLiveEvent()
-    var charactersState: MutableLiveData<Pair<MarvelCharacter, MarvelCharacter>> = SingleLiveEvent()
 
 
     init {

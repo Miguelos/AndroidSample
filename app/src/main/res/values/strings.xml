@@ -16,9 +16,11 @@
     <string name="no_items">No items</string>
     <string name="title_fragment_detail">Character Detail</string>
     <string name="title_fragment_list">Marvel characters</string>
-    <string name="fight_button">Fight</string>
-    <string name="select_character">Select character</string>
+    <string name="select_two_characters_button">Select two characters</string>
+    <string name="go_to_arena_button">Go to Arena</string>
 
     <!-- Arena feature -->
-
+    <string name="title_fragment_arena">Arena</string>
+    <string name="select_characters">Select characters</string>
+    <string name="fight_button">Fight</string>
 </resources>

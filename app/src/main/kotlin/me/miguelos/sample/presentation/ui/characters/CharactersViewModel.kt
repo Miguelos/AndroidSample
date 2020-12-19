@@ -94,6 +94,14 @@ class CharactersViewModel @ViewModelInject constructor(
         }
     }
 
+    fun enableSelection() {
+        viewState.value = viewState.value?.copy(
+            selectionEnabled = true
+        )
+    }
+
+    fun isSelectionEnabled(): Boolean = viewState.value?.selectionEnabled ?: false
+
     companion object {
         const val PAGE_SIZE = 10
     }

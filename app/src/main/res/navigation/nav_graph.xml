@@ -35,6 +35,10 @@
     <fragment
         android:id="@+id/arenaFragment"
         android:name="me.miguelos.sample.presentation.ui.arena.ArenaFragment"
-        android:label="fragment_arena"
-        tools:layout="@layout/fragment_arena" />
+        android:label="@string/title_fragment_arena"
+        tools:layout="@layout/fragment_arena" >
+        <action
+            android:id="@+id/action_arenaFragment_to_charactersFragment"
+            app:destination="@id/charactersFragment" />
+    </fragment>
 </navigation>

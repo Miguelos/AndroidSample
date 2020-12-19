@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +21,8 @@ import me.miguelos.sample.presentation.core.BaseFragment
 import me.miguelos.sample.presentation.core.EndlessRecyclerViewScrollListener
 import me.miguelos.sample.presentation.model.MarvelCharacter
 import me.miguelos.sample.presentation.ui.MainActivity.Companion.ARG_ID
-import me.miguelos.sample.presentation.ui.characters.adapter.CharactersAdapter
+import me.miguelos.sample.presentation.ui.arena.ArenaFragment
+import me.miguelos.sample.presentation.ui.characters.adapter.MarvelCharactersAdapter
 import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
@@ -27,12 +31,12 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListener {
+class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItemListener {
 
     private var binding: FragmentCharactersBinding by autoCleared()
     private val viewModel: CharactersViewModel by viewModels()
 
-    private var characterAdapter: CharactersAdapter? = null
+    private var characterAdapterMarvel: MarvelCharactersAdapter? = null
 
     @Inject
     lateinit var imageLoader: ImageLoader
@@ -41,7 +45,7 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,22 +56,50 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
     }
 
     private fun initUi() {
+        arguments?.getBoolean(ARG_SELECTION_ENABLED)?.let {
+            if (it) {
+                viewModel.enableSelection()
+            }
+        }
         initAdapter()
         initSearch()
+        initSelectUi()
         observeViewState()
-        viewModel.loadCharacters(totalItemsCount = characterAdapter?.itemCount)
+        viewModel.loadCharacters(totalItemsCount = characterAdapterMarvel?.itemCount)
+    }
+
+    private fun initSelectUi() {
+        if (viewModel.isSelectionEnabled()) {
+            binding.selectListItemsB.visibility = VISIBLE
+            binding.selectListItemsB.setOnClickListener {
+                characterAdapterMarvel?.let { adapter ->
+                    setFragmentResult(
+                        ArenaFragment.MARVEL_CHARACTER_REQUEST_KEY,
+                        bundleOf(
+                            ArenaFragment.MARVEL_CHARACTER_1_KEY to adapter.getCheckedItems(0),
+                            ArenaFragment.MARVEL_CHARACTER_2_KEY to adapter.getCheckedItems(1)
+                        )
+                    )
+                    findNavController().popBackStack()
+                }
+            }
+        } else {
+            binding.selectListItemsB.visibility = GONE
+        }
     }
 
     private fun initAdapter() {
-        if (characterAdapter == null) {
-            characterAdapter = CharactersAdapter(this, imageLoader)
+        if (characterAdapterMarvel == null) {
+            characterAdapterMarvel =
+                MarvelCharactersAdapter(this, imageLoader, viewModel.isSelectionEnabled())
         }
-        characterAdapter?.apply {
-            binding.charactersRv.let {
+
+        characterAdapterMarvel?.let {
+            binding.charactersRv.apply {
                 val linearLayoutManager = LinearLayoutManager(requireContext())
-                it.layoutManager = linearLayoutManager
-                it.adapter = this
-                it.addOnScrollListener(object :
+                layoutManager = linearLayoutManager
+                adapter = it
+                addOnScrollListener(object :
                     EndlessRecyclerViewScrollListener(linearLayoutManager) {
                     override fun onLoadMore(
                         page: Int,
@@ -106,7 +138,7 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
         getSearchQuery()?.let {
             binding.charactersRv.scrollToPosition(0)
             viewModel.loadCharacters(it.toString())
-            characterAdapter?.apply {
+            characterAdapterMarvel?.apply {
                 clear()
                 notifyDataSetChanged()
             }
@@ -144,7 +176,7 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
         binding.emptyListTv.visibility = if (characters.isEmpty()) {
             View.VISIBLE
         } else {
-            characterAdapter?.addItems(ArrayList(characters))
+            characterAdapterMarvel?.addItems(ArrayList(characters))
             View.GONE
         }
     }
@@ -161,10 +193,27 @@ class CharactersFragment : BaseFragment(), CharactersAdapter.CharacterItemListen
         }
     }
 
-    override fun onClickedCharacter(characterId: Long) {
+    override fun onCheckedCharacter(character: MarvelCharacter, checked: Boolean) {
+        characterAdapterMarvel?.let { adapter ->
+            adapter.checkItem(character, checked)
+            if (adapter.checkedItemCount() == 2) {
+                binding.selectListItemsB.isEnabled = true
+                binding.selectListItemsB.text = getString(R.string.go_to_arena_button)
+            } else {
+                binding.selectListItemsB.isEnabled = false
+                binding.selectListItemsB.text = getString(R.string.select_two_characters_button)
+            }
+        }
+    }
+
+    override fun onClickedCharacter(character: MarvelCharacter) {
         findNavController().navigate(
             R.id.action_charactersFragment_to_characterDetailFragment,
-            bundleOf(ARG_ID to characterId)
+            bundleOf(ARG_ID to character.id)
         )
+    }
+
+    companion object {
+        const val ARG_SELECTION_ENABLED = "enable_selection"
     }
 }
