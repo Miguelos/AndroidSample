@@ -11,4 +11,17 @@ data class MarvelCharacter(
     val thumbnail: String = "",
     val urls: List<String> = emptyList(),
     val availableComics: Int = 0
-) : Parcelable
+) : Parcelable, Comparable<MarvelCharacter> {
+
+    override fun compareTo(other: MarvelCharacter) = when {
+        id < other.id -> {
+            -1
+        }
+        id > other.id -> {
+            1
+        }
+        else -> {
+            0
+        }
+    }
+}

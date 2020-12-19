@@ -27,14 +27,11 @@ class MarvelCharactersAdapter(
         setHasStableIds(true)
     }
 
-    fun setItems(items: ArrayList<MarvelCharacter>) {
-        this.items.clear()
-        this.addItems(items)
-    }
-
     fun addItems(items: ArrayList<MarvelCharacter>) {
         val prevSize = this.items.size
-        this.items.addAll(items)
+        this.items.addAll(
+            items.filter { it !in this.checkedItems }
+        )
         notifyItemRangeChanged(prevSize, items.size)
     }
 
@@ -46,7 +43,7 @@ class MarvelCharactersAdapter(
         }
     }
 
-    fun checkedItemCount() = checkedItems.size
+    fun getCheckedItemCount() = checkedItems.size
 
     fun getCheckedItems(i: Int) =
         if (i in this.checkedItems.indices) {
@@ -57,8 +54,7 @@ class MarvelCharactersAdapter(
 
     fun clear() {
         this.items.clear()
-        this.checkedItems.clear()
-        notifyDataSetChanged()
+        this.items.addAll(this.checkedItems)
     }
 
     override fun getItemId(position: Int) =

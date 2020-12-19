@@ -32,13 +32,19 @@
         android:name="me.miguelos.sample.presentation.ui.characterdetail.CharacterDetailFragment"
         android:label="@string/title_fragment_detail"
         tools:layout="@layout/fragment_character_detail" />
+
     <fragment
         android:id="@+id/arenaFragment"
         android:name="me.miguelos.sample.presentation.ui.arena.ArenaFragment"
         android:label="@string/title_fragment_arena"
-        tools:layout="@layout/fragment_arena" >
+        tools:layout="@layout/fragment_arena">
         <action
             android:id="@+id/action_arenaFragment_to_charactersFragment"
             app:destination="@id/charactersFragment" />
+        <action
+            android:id="@+id/action_arenaFragment_to_charactersRankingFragment"
+            app:destination="@id/charactersFragment"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

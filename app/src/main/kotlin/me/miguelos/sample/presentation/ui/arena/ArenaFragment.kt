@@ -79,7 +79,7 @@ class ArenaFragment : BaseFragment() {
 
         binding.goToRankingB.setOnClickListener {
             findNavController().navigate(
-                R.id.action_arenaFragment_to_charactersFragment,
+                R.id.action_arenaFragment_to_charactersRankingFragment,
                 bundleOf(CharactersFragment.ARG_RANKING_ENABLED to true)
             )
         }

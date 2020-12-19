@@ -31,7 +31,7 @@ class CharactersViewModel @ViewModelInject constructor(
     fun loadCharacters(query: String? = null, totalItemsCount: Int? = 0) {
         if (viewState.value?.isLoading == false) {
             viewState.value = viewState.value?.copy(isLoading = true)
-            if (query != null) {
+            if (query?.isNotBlank() == true) {
                 viewState.value = viewState.value?.copy(
                     query = query
                 )

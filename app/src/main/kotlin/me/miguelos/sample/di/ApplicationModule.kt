@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import me.miguelos.sample.presentation.core.AppSchedulers
-import me.miguelos.sample.domain.common.ExecutionSchedulers as ExecutionSchedulers1
+import me.miguelos.sample.domain.common.ExecutionSchedulers
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -19,5 +19,5 @@ abstract class ApplicationModule {
     @Binds
     internal abstract fun bindExecutionSchedulers(
         appSchedulers: AppSchedulers
-    ): ExecutionSchedulers1
+    ): ExecutionSchedulers
 }

@@ -98,6 +98,7 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
                     findNavController().popBackStack()
                 }
             }
+            updateGoToArenaButton()
         } else {
             binding.selectListItemsB.visibility = GONE
         }
@@ -213,13 +214,18 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     override fun onCheckedCharacter(character: MarvelCharacter, checked: Boolean) {
         characterAdapterMarvel?.let { adapter ->
             adapter.checkItem(character, checked)
-            if (adapter.checkedItemCount() == 2) {
-                binding.selectListItemsB.isEnabled = true
-                binding.selectListItemsB.text = getString(R.string.go_to_arena_button)
-            } else {
-                binding.selectListItemsB.isEnabled = false
-                binding.selectListItemsB.text = getString(R.string.select_two_characters_button)
-            }
+            adapter.notifyDataSetChanged()
+            updateGoToArenaButton()
+        }
+    }
+
+    private fun updateGoToArenaButton() {
+        if (characterAdapterMarvel?.getCheckedItemCount() == 2) {
+            binding.selectListItemsB.isEnabled = true
+            binding.selectListItemsB.text = getString(R.string.go_to_arena_button)
+        } else {
+            binding.selectListItemsB.isEnabled = false
+            binding.selectListItemsB.text = getString(R.string.select_two_characters_button)
         }
     }
 
