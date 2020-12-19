@@ -42,10 +42,13 @@ class HomeFragment : BaseFragment() {
                 R.id.action_homeFragment_to_charactersFragment
             )
         }
-        listOf(binding.arenaButton, binding.rankingButton).forEach {
-            it.setOnClickListener {
+        binding.arenaButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_homeFragment_to_arenaFragment
+            )
+        }
+        binding.rankingButton.setOnClickListener {
                 binding.homeCl.showSnackbar("Under development")
-            }
         }
     }
 }

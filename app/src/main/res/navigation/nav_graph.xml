@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_homeFragment_to_charactersFragment"
             app:destination="@id/charactersFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_arenaFragment"
+            app:destination="@id/arenaFragment" />
     </fragment>
 
     <fragment
@@ -29,4 +32,9 @@
         android:name="me.miguelos.sample.presentation.ui.characterdetail.CharacterDetailFragment"
         android:label="@string/title_fragment_detail"
         tools:layout="@layout/fragment_character_detail" />
+    <fragment
+        android:id="@+id/arenaFragment"
+        android:name="me.miguelos.sample.presentation.ui.arena.ArenaFragment"
+        android:label="fragment_arena"
+        tools:layout="@layout/fragment_arena" />
 </navigation>

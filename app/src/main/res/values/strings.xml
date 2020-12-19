@@ -11,9 +11,14 @@
     <string name="arena_button">Arena</string>
     <string name="ranking_button">Ranking</string>
 
-    <!-- Search feature -->
+    <!-- List/Search feature -->
     <string name="search_hint">Search for Marvel characters</string>
     <string name="no_items">No items</string>
     <string name="title_fragment_detail">Character Detail</string>
     <string name="title_fragment_list">Marvel characters</string>
+    <string name="fight_button">Fight</string>
+    <string name="select_character">Select character</string>
+
+    <!-- Arena feature -->
+
 </resources>

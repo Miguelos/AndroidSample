@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/detail_name_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toBottomOf="@id/detail_image_iv"
             tools:text="TextView" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/detail_description_tv"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@+id/detail_name_tv"
             tools:text="TextView" />
 
-        <ProgressBar
+        <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/detail_pb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
