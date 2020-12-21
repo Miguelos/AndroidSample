@@ -65,16 +65,18 @@ tests for online and offline cases placed inside `MainActivityTest.kt`
 
 ## Libraries
 *   [Dagger Hilt](https://dagger.dev/hilt)
+*   [Hilt Jetpack](https://developer.android.com/training/dependency-injection/hilt-jetpack)
 *   [RxJava 3](https://github.com/ReactiveX/RxJava)
 *   [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 *   [DFM navigation](https://developer.android.com/guide/navigation)
 *   [Constraint Layout](https://developer.android.com/training/constraint-layout)
 *   [Gradle](https://docs.gradle.org)
 *   [Room](https://developer.android.com/topic/libraries/architecture/room)
-*   [Retrofit](https://square.github.io/retrofit)
+*   [Retrofit](https://square.github.io/retrofit). A type-safe HTTP client for Android and Java
 *   [Timber](https://github.com/JakeWharton/timber)
 *   [Glide](https://github.com/bumptech/glide)
 *   [Mockito](https://github.com/mockito/mockito)
+*   [LeakCanary](https://square.github.io/leakcanary). Memory leak detection library for Android
 
 ## Structure
 * **Presentation**: Model View View Model pattern from the base sample.
