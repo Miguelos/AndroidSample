@@ -5,12 +5,12 @@ import android.content.Context
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import me.miguelos.sample.domain.common.ExecutionSchedulers
 import me.miguelos.sample.presentation.core.AppSchedulers
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class ApplicationModule {
 
     @Binds

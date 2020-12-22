@@ -28,7 +28,6 @@ class MarvelCharactersAdapter(
     }
 
     fun addItems(items: ArrayList<MarvelCharacter>) {
-        val prevSize = this.items.size
         this.items.addAll(
             items.filter { it !in this.items }
         )
@@ -53,7 +52,7 @@ class MarvelCharactersAdapter(
         }
 
     fun clear() {
-        this.items.removeAll { it !in this.checkedItems}
+        this.items.removeAll { it !in this.checkedItems }
     }
 
     override fun getItemId(position: Int) =

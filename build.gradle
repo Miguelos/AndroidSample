@@ -1,24 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext {
-        minSdkVersion = 25
-        targetSdkVersion = 30
-        compileSdkVersion = 30
-        buildToolsVersion = '30.0.2'
-
-        gradleVersion = '7.0.0-alpha04'
-        kotlinVersion = "1.4.21"
-        hiltVersion = "2.28.1-alpha"
-        andXhiltVersion = "1.0.0-alpha02"
-        navVersion = "2.3.2"
-        lifecycleVersion = "2.2.0"
-        roomVersion = "2.2.6"
-        espressoVersion = "3.3.0"
-        retrofitVersion = "2.9.0"
-        activityVersion = "1.1.0"
-        fragmentVersion = "1.3.0-rc01"
-        klintVersion = "9.4.1"
-    }
+    apply from: 'config.gradle'
 
     repositories {
         google()
@@ -29,14 +11,11 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:$klintVersion"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
     }
 }
 
@@ -44,6 +23,17 @@ allprojects {
     repositories {
         google()
         jcenter()
+    }
+}
+
+subprojects {
+    apply plugin: 'org.jlleitschuh.gradle.ktlint'
+
+    ktlint {
+        debug = true
+        android = true
+        outputToConsole = true
+        outputColorName = "RED"
     }
 }
 

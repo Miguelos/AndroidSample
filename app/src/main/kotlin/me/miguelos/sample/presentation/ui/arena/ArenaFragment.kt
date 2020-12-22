@@ -27,7 +27,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ArenaFragment : BaseFragment() {
 
-    private var binding by autoCleared<FragmentArenaBinding>()
+    private var binding: FragmentArenaBinding by autoCleared()
     private val viewModel: ArenaViewModel by viewModels()
 
     @Inject
@@ -47,11 +47,15 @@ class ArenaFragment : BaseFragment() {
         initUi()
     }
 
+    override fun onStart() {
+        super.onStart()
+        observeViewState()
+    }
+
     private fun initUi() {
         (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.arena_title))
 
         initButtons()
-        observeViewState()
     }
 
     private fun initButtons() {

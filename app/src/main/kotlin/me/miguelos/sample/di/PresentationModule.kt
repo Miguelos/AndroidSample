@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import me.miguelos.sample.common.TwoWaysMapper
 import me.miguelos.sample.presentation.model.MarvelCharacter
 import me.miguelos.sample.presentation.model.mappers.MarvelCharacterMapper
@@ -15,7 +15,7 @@ import me.miguelos.sample.domain.model.MarvelCharacter as DomainMarvelCharacter
 
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object PresentationModule {
 
     @Provides

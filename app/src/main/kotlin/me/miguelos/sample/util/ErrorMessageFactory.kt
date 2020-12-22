@@ -10,13 +10,12 @@ import java.net.UnknownHostException
  */
 object ErrorMessageFactory {
 
-    fun create(context: Context, exception: Throwable): String {
-        Timber.tag(TAG).e(exception)
-        return with(context) {
+    fun create(context: Context, exception: Throwable) =
+        with(context) {
+            Timber.tag(TAG).e(exception)
             when (exception) {
                 is UnknownHostException -> getString(R.string.exception_message_no_connection)
-                else -> getString(R.string.exception_message_generic)
+                else -> getString(R.string.exception_message_generic) + ":" + exception.localizedMessage
             }
         }
-    }
 }

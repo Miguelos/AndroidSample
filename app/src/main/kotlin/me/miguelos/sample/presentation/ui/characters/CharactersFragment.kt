@@ -38,8 +38,6 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     private var binding: FragmentCharactersBinding by autoCleared()
     private val viewModel: CharactersViewModel by viewModels()
 
-    private var characterAdapterMarvel: MarvelCharactersAdapter? = null
-
     @Inject
     lateinit var imageLoader: ImageLoader
 
@@ -57,6 +55,11 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
         initUi()
     }
 
+    override fun onStart() {
+        super.onStart()
+        observeViewState()
+    }
+
     private fun initUi() {
         (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.title_fragment_list))
 
@@ -72,7 +75,7 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
                 (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.arena_ranking_title))
 
                 viewModel.enableRanking()
-                characterAdapterMarvel?.clear()
+                getRVAdapter()?.clear()
                 loadMarvelCharacters()
             }
         }
@@ -80,38 +83,40 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
         initAdapter()
         initSearch()
         initSelectUi()
-        observeViewState()
     }
 
     private fun initSelectUi() {
         if (viewModel.isSelectionEnabled()) {
-            binding.selectListItemsB.visibility = VISIBLE
-            binding.selectListItemsB.setOnClickListener {
-                characterAdapterMarvel?.let { adapter ->
-                    setFragmentResult(
-                        ArenaFragment.MARVEL_CHARACTER_REQUEST_KEY,
-                        bundleOf(
-                            ArenaFragment.MARVEL_CHARACTER_1_KEY to adapter.getCheckedItems(0),
-                            ArenaFragment.MARVEL_CHARACTER_2_KEY to adapter.getCheckedItems(1)
+            binding.run {
+                selectListItemsB.visibility = VISIBLE
+                selectListItemsB.setOnClickListener {
+                    getRVAdapter()?.let { adapter ->
+                        setFragmentResult(
+                            ArenaFragment.MARVEL_CHARACTER_REQUEST_KEY,
+                            bundleOf(
+                                ArenaFragment.MARVEL_CHARACTER_1_KEY to adapter.getCheckedItems(0),
+                                ArenaFragment.MARVEL_CHARACTER_2_KEY to adapter.getCheckedItems(1)
+                            )
                         )
-                    )
-                    findNavController().popBackStack()
+                        findNavController().popBackStack()
+                    }
                 }
+                updateGoToArenaButton()
             }
-            updateGoToArenaButton()
         } else {
             binding.selectListItemsB.visibility = GONE
         }
     }
 
     private fun initAdapter() {
+        var characterAdapterMarvel = getRVAdapter()
         if (characterAdapterMarvel == null) {
             characterAdapterMarvel =
                 MarvelCharactersAdapter(this, imageLoader, viewModel.isSelectionEnabled())
         }
 
-        characterAdapterMarvel?.let {
-            binding.charactersRv.apply {
+        characterAdapterMarvel.let {
+            binding.charactersRv.run {
                 val linearLayoutManager = LinearLayoutManager(requireContext())
                 layoutManager = linearLayoutManager
                 adapter = it
@@ -154,15 +159,17 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     }
 
     private fun loadMarvelCharacters() {
-        binding.charactersRv.scrollToPosition(0)
-        viewModel.loadCharacters(getSearchQuery().toString())
-        characterAdapterMarvel?.apply {
-            clear()
-            binding.charactersRv.post {
-                notifyDataSetChanged()
+        binding.charactersRv.run runRV@{
+            scrollToPosition(0)
+            viewModel.loadCharacters(getSearchQuery().toString())
+            getRVAdapter()?.run runAdapter@{
+                clear()
+                this@runRV.post {
+                    notifyDataSetChanged()
+                }
             }
+            recycledViewPool.clear()
         }
-        binding.charactersRv.recycledViewPool.clear()
     }
 
     private fun getSearchQuery() =
@@ -186,13 +193,15 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     }
 
     private fun handleCharactersState(characters: List<MarvelCharacter>) {
-        characterAdapterMarvel?.addItems(ArrayList(characters))
-        binding.emptyListTv.visibility =
-            if (characterAdapterMarvel != null && characterAdapterMarvel!!.itemCount > 0) {
-                GONE
-            } else {
-                VISIBLE
-            }
+        getRVAdapter()?.run {
+            addItems(ArrayList(characters))
+            binding.emptyListTv.visibility =
+                if (itemCount > 0) {
+                    GONE
+                } else {
+                    VISIBLE
+                }
+        }
     }
 
     private fun handleFeedbackState(error: Throwable) {
@@ -214,24 +223,29 @@ class CharactersFragment : BaseFragment(), MarvelCharactersAdapter.CharacterItem
     }
 
     override fun onCheckedCharacter(character: MarvelCharacter, checked: Boolean) {
-        characterAdapterMarvel?.let { adapter ->
-            adapter.checkItem(character, checked)
+        getRVAdapter()?.run {
+            checkItem(character, checked)
             binding.charactersRv.post {
-                adapter.notifyDataSetChanged()
+                notifyDataSetChanged()
             }
             updateGoToArenaButton()
         }
     }
 
     private fun updateGoToArenaButton() {
-        if (characterAdapterMarvel?.getCheckedItemCount() == 2) {
-            binding.selectListItemsB.isEnabled = true
-            binding.selectListItemsB.text = getString(R.string.go_to_arena_button)
-        } else {
-            binding.selectListItemsB.isEnabled = false
-            binding.selectListItemsB.text = getString(R.string.select_two_characters_button)
-        }
+        getRVAdapter()
+            ?.getCheckedItemCount()?.let { count ->
+                if (count == 2) {
+                    binding.selectListItemsB.isEnabled = true
+                    binding.selectListItemsB.text = getString(R.string.go_to_arena_button)
+                } else {
+                    binding.selectListItemsB.isEnabled = false
+                    binding.selectListItemsB.text = getString(R.string.select_two_characters_button)
+                }
+            }
     }
+
+    private fun getRVAdapter() = (binding.charactersRv.adapter as? MarvelCharactersAdapter)
 
     override fun onClickedCharacter(character: MarvelCharacter) {
         findNavController().navigate(

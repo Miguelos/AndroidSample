@@ -22,7 +22,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CharacterDetailFragment : BaseFragment() {
 
-    private var binding by autoCleared<FragmentCharacterDetailBinding>()
+    private var binding: FragmentCharacterDetailBinding by autoCleared()
     private val viewModel: CharacterDetailViewModel by viewModels()
 
     @Inject
@@ -42,10 +42,14 @@ class CharacterDetailFragment : BaseFragment() {
         initUi()
     }
 
+    override fun onStart() {
+        super.onStart()
+        observeViewState()
+    }
+
     private fun initUi() {
         (requireActivity() as? MainActivity)?.updateTitle(getString(R.string.character_detail_title))
 
-        observeViewState()
         arguments?.getLong(ARG_ID)?.let { viewModel.saveId(it) }
     }
 
