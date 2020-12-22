@@ -20,6 +20,7 @@ import me.miguelos.sample.presentation.ui.characters.CharactersFragment
 import me.miguelos.sample.util.ErrorMessageFactory
 import me.miguelos.sample.util.autoCleared
 import me.miguelos.sample.util.imageloader.ImageLoader
+import me.miguelos.sample.util.observe
 import me.miguelos.sample.util.showSnackbar
 import javax.inject.Inject
 
@@ -106,20 +107,9 @@ class ArenaFragment : BaseFragment() {
     }
 
     private fun observeViewState() {
-        viewModel.viewState.observe(
-            viewLifecycleOwner,
-            { handleViewState(it) }
-        )
-
-        viewModel.errorState.observe(
-            viewLifecycleOwner,
-            { handleFeedbackState(it) }
-        )
-
-        viewModel.charactersState.observe(
-            viewLifecycleOwner,
-            { handleCharactersState(it) }
-        )
+        observe(viewModel.viewState) { handleViewState(it) }
+        observe(viewModel.errorState) { handleFeedbackState(it) }
+        observe(viewModel.charactersState) { handleCharactersState(it) }
     }
 
     private fun handleCharactersState(characters: Pair<MarvelCharacter, MarvelCharacter>) {

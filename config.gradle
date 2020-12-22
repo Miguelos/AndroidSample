@@ -22,7 +22,6 @@ ext {
     constraintlayoutVersion = "2.0.4"
     swipeRefreshLayoutVersion = "1.1.0"
     recyclerViewVersion = "1.2.0-alpha03"
-    workmanagerVersion = "2.4.0"
     lifecycleVersion = "2.2.0"
     securityCryptoVersion = "1.1.0-alpha02"
     roomVersion = "2.2.6"
