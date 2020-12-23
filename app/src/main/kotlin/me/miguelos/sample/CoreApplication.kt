@@ -16,7 +16,7 @@ class CoreApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        initStrictMode()
+        //initStrictMode()
         initTimber()
     }
 
