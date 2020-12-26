@@ -57,8 +57,6 @@ tests for online and offline cases placed inside `MainActivityTest.kt`
 ## Features and Libraries
 * Clean Architecture with MVVM
 * Jetpack Navigation
-* Dynamic Feature Modules
-* Video streaming with Exoplayer
 * Dagger Hilt
 * Kotlin Gradle DSL
 * Room
