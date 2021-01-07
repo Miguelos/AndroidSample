@@ -407,10 +407,13 @@ obj/
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 
+# Other IntelliJ plugins
+.idea/git_toolbox_prj.xml
+.idea/qaplug_profiles.xml
+
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
 /.idea/checkstyleidea-libs/readme.txt
 
 gradle.properties
-/.idea/git_toolbox_prj.xml

@@ -6,7 +6,7 @@ buildscript {
         compileSdkVersion = 30
         buildToolsVersion = '30.0.2'
 
-        gradleVersion = '4.1.1'
+        gradleVersion = '7.0.0-alpha03'
         kotlinVersion = "1.4.21"
         hiltVersion = "2.28.1-alpha"
         andXhiltVersion = "1.0.0-alpha02"
@@ -29,7 +29,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:${gradleVersion}"
+        classpath "com.android.tools.build:gradle:$gradleVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"

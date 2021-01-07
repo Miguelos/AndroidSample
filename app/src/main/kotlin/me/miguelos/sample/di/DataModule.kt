@@ -10,13 +10,13 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import me.miguelos.sample.BuildConfig
 import me.miguelos.sample.common.Mapper
 import me.miguelos.sample.common.TwoWaysMapper
-import me.miguelos.sample.data.source.MarvelRepositoryImpl
+import me.miguelos.sample.data.MarvelRepositoryImpl
 import me.miguelos.sample.data.source.local.MarvelCharacterDao
 import me.miguelos.sample.data.source.local.MarvelDatabase
-import me.miguelos.sample.data.source.local.MarvelLocalDataSource
+import me.miguelos.sample.data.source.local.MarvelLocalRemoteDataSource
 import me.miguelos.sample.data.source.local.entity.MarvelCharacterDBEntity
 import me.miguelos.sample.data.source.local.entity.mapper.MarvelCharacterDBMapper
-import me.miguelos.sample.data.source.remote.MarvelRemoteDataSource
+import me.miguelos.sample.data.source.remote.MarvelRemoteRemoteDataSource
 import me.miguelos.sample.data.source.remote.api.AuthInterceptor
 import me.miguelos.sample.data.source.remote.api.MarvelService
 import me.miguelos.sample.data.source.remote.entity.ImageEntity
@@ -47,8 +47,8 @@ object DataModule {
     @Singleton
     @Provides
     fun provideMarvelRepository(
-        marvelLocalDataSource: MarvelLocalDataSource,
-        marvelRemoteDataSource: MarvelRemoteDataSource
+        marvelLocalDataSource: MarvelLocalRemoteDataSource,
+        marvelRemoteDataSource: MarvelRemoteRemoteDataSource
     ): MarvelRepository =
         MarvelRepositoryImpl(marvelLocalDataSource, marvelRemoteDataSource)
 

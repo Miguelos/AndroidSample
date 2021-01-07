@@ -1,8 +1,8 @@
-package me.miguelos.sample.data.source
+package me.miguelos.sample.data
 
 import io.reactivex.rxjava3.core.Single
-import me.miguelos.sample.data.source.local.MarvelLocalDataSource
-import me.miguelos.sample.data.source.remote.MarvelRemoteDataSource
+import me.miguelos.sample.data.source.local.MarvelLocalRemoteDataSource
+import me.miguelos.sample.data.source.remote.MarvelRemoteRemoteDataSource
 import me.miguelos.sample.domain.MarvelRepository
 import me.miguelos.sample.domain.usecase.GetCharacter
 import me.miguelos.sample.domain.usecase.GetCharacters
@@ -16,8 +16,8 @@ import javax.inject.Inject
  * Use the remote data source only if the local database doesn't exist or is empty.
  */
 class MarvelRepositoryImpl @Inject constructor(
-    private val marvelLocalDS: MarvelLocalDataSource,
-    private val marvelRemoteDS: MarvelRemoteDataSource
+    private val marvelLocalDS: MarvelLocalRemoteDataSource,
+    private val marvelRemoteDS: MarvelRemoteRemoteDataSource
 ) : MarvelRepository {
 
     /**
@@ -35,7 +35,7 @@ class MarvelRepositoryImpl @Inject constructor(
     private fun getLocalRankedMarvelCharacters(
         requestValues: GetCharacters.RequestValues
     ): Single<GetCharacters.ResponseValues?> =
-        marvelLocalDS.getMarvelCharacters(requestValues)
+        marvelLocalDS.getRankedMarvelCharacters(requestValues)
 
     /**
      * Gets characters from local data source (sqlite) unless the table is new or empty.
@@ -45,7 +45,7 @@ class MarvelRepositoryImpl @Inject constructor(
         requestValues: GetCharacter.RequestValues
     ): Single<GetCharacter.ResponseValues?> =
         Single.concat(
-            marvelLocalDS.getMarvelCharacter(requestValues),
+            marvelLocalDS.getRankedMarvelCharacter(requestValues),
             marvelRemoteDS.getMarvelCharacter(requestValues)
         )
             .filter { response -> response?.marvelCharacter != null }
@@ -53,7 +53,7 @@ class MarvelRepositoryImpl @Inject constructor(
 
 
     override fun deleteAllMarvelCharacters() =
-        marvelLocalDS.deleteAllMarvelCharacters()
+        marvelLocalDS.deleteRankedMarvelCharacters()
 
     override fun saveMarvelCharacters(requestValues: SaveCharacters.RequestValues) =
         marvelLocalDS.saveMarvelCharacters(requestValues)
