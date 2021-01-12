@@ -6,7 +6,7 @@ buildscript {
         compileSdkVersion = 30
         buildToolsVersion = '30.0.2'
 
-        gradleVersion = '7.0.0-alpha03'
+        gradleVersion = '7.0.0-alpha04'
         kotlinVersion = "1.4.21"
         hiltVersion = "2.28.1-alpha"
         andXhiltVersion = "1.0.0-alpha02"
